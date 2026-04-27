@@ -196,9 +196,9 @@ h1 {
 
 <!-- 🎬 인트로 -->
 <div id="intro">
-  <video id="introVideo" autoplay muted playsinline>
-    <source src="intro.mp4" type="video/mp4">
-  </video>
+      <video id="introVideo" muted playsinline>
+  <source src="intro.mp4" type="video/mp4">
+      </video>
   <div class="skip" onclick="skipIntro()">SKIP</div>
 </div>
 
@@ -266,10 +266,22 @@ function openTab(tabName, el) {
 
 /* 🎬 인트로 페이드 */
 window.onload = function(){
-    let intro = document.getElementById("intro");
     let video = document.getElementById("introVideo");
 
-    video.onended = fadeOutIntro;
+    if(video){
+        // 강제 재생 시도
+        video.play().catch(()=>{
+            // 재생 실패하면 바로 넘어감
+            fadeOutIntro();
+        });
+
+        video.onended = fadeOutIntro;
+
+        // 5초 후 자동 넘어가기 (안전장치)
+        setTimeout(()=>{
+            fadeOutIntro();
+        },5000);
+    }
 };
 
 function skipIntro(){
@@ -278,6 +290,8 @@ function skipIntro(){
 
 function fadeOutIntro(){
     let intro = document.getElementById("intro");
+    if(!intro) return;
+
     intro.style.opacity = "0";
     setTimeout(()=>{
         intro.style.display = "none";
