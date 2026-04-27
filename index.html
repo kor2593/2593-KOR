@@ -21,10 +21,10 @@ h1 {
     margin-top: 60px;
     font-size: 36px;
     font-weight: 800;
-    text-align: center;
     letter-spacing: 2px;
+    text-shadow: 0 0 10px #3b82f6;
 }
-    
+
 /* 설명 */
 .subtitle {
     margin-top: 10px;
@@ -52,20 +52,56 @@ h1 {
     font-size: 20px;
     font-weight: bold;
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
     transition: 0.2s;
 }
 
-/* 클릭 효과 */
 .btn:active {
     transform: scale(0.97);
 }
 
-/* 강조 버튼 */
 .main-btn {
     background: #2563eb;
 }
 
-/* 하단 */
+/* 카드 */
+.card {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #1e293b, #020617);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    border: 1px solid rgba(59,130,246,0.4);
+    text-align: left;
+    animation: fadeIn 0.3s ease;
+}
+
+.card-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #60a5fa;
+    text-shadow: 0 0 10px #3b82f6;
+}
+
+.card-section {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.card-sub {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #3b82f6;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
 .footer {
     margin-top: 50px;
     font-size: 12px;
@@ -77,8 +113,8 @@ h1 {
 <body>
 
 <h1>
- 2593 KOR ALLIANCE<br>
-  WELCOME
+2593 KOR ALLIANCE<br>
+WELCOME
 </h1>
 
 <div class="subtitle">
@@ -86,43 +122,53 @@ White Out Survival
 </div>
 
 <div class="container">
-<div id="korInfo" style="display:none; margin-top:20px; font-size:18px; line-height:1.6;">
-🛡 KOR 연맹 안내<br><br>
-
-🐻 곰 사냥<br>
-곰1 : UTC 12:00<br>
-곰2 : UTC 13:20<br><br>
-
-📌 참여 규칙<br>
-- 집결 참여 필수<br>
-- 부대 설정 준수<br>
-- 잘못된 영웅 사용 시 kick
-</div>
 
 <a class="btn main-btn" href="#">🔥 JOIN KOR</a>
+
+<a class="btn" onclick="toggleKOR()">🛡 KOR 연맹</a>
 
 <a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
 
 <a class="btn" href="#">📋 가입 신청</a>
 
-<a class="btn" href="#">📜 연맹 이벤트 시간</a>
-
 <a class="btn" href="#">⚔ 전략 가이드</a>
+
+<!-- 카드 UI -->
+<div id="korCard" class="card">
+
+  <div class="card-title">🛡 KOR ALLIANCE</div>
+
+  <div class="card-section">
+    <div class="card-sub">🐻 곰 사냥</div>
+    곰1 : UTC 12:00<br>
+    곰2 : UTC 13:20
+  </div>
+
+  <div class="card-section">
+    <div class="card-sub">📌 규칙</div>
+    - 집결 참여 필수<br>
+    - 부대 설정 준수<br>
+    - 잘못된 영웅 사용 시 kick
+  </div>
+
+</div>
 
 </div>
 
 <div class="footer">
 © KOR Alliance Minions
 </div>
+
 <script>
 function toggleKOR() {
-  var x = document.getElementById("korInfo");
-  if (x.style.display === "none") {
-    x.style.display = "block";
+  var card = document.getElementById("korCard");
+  if (card.style.display === "none" || card.style.display === "") {
+    card.style.display = "block";
   } else {
-    x.style.display = "none";
+    card.style.display = "none";
   }
 }
 </script>
+
 </body>
 </html>
