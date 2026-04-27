@@ -9,12 +9,54 @@
 <style>
 body {
     margin: 0;
-    background: linear-gradient(180deg, #0f172a, #020617);
+    background: #020617;
     color: white;
     font-family: Arial, sans-serif;
     text-align: center;
+    overflow-x: hidden;
 }
 
+/* 배경 움직임 */
+.bg-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: moveBg 20s linear infinite;
+    z-index: -2;
+}
+
+/* 눈 효과 */
+.snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background-image: 
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(white 2px, transparent 2px);
+    background-size: 50px 50px, 100px 100px, 150px 150px;
+    animation: snowFall 15s linear infinite;
+}
+
+@keyframes moveBg {
+    from { transform: translate(0,0); }
+    to { transform: translate(-200px,-200px); }
+}
+
+@keyframes snowFall {
+    from { background-position: 0 0, 0 0, 0 0; }
+    to { background-position: 0 500px, 0 300px, 0 700px; }
+}
+
+/* 제목 */
 h1 {
     font-family: 'Orbitron', sans-serif;
     margin-top: 50px;
@@ -26,7 +68,7 @@ h1 {
     color: #94a3b8;
 }
 
-/* 탭 메뉴 */
+/* 탭 */
 .tabs {
     display: flex;
     margin: 30px 10px;
@@ -42,8 +84,6 @@ h1 {
     border: none;
     color: white;
     font-size: 16px;
-    cursor: pointer;
-    transition: 0.2s;
 }
 
 .tab-btn.active {
@@ -51,7 +91,7 @@ h1 {
     box-shadow: 0 0 10px #3b82f6;
 }
 
-/* 내용 영역 */
+/* 내용 */
 .tab-content {
     display: none;
     padding: 20px;
@@ -66,7 +106,6 @@ h1 {
     display: block;
 }
 
-/* 카드 스타일 */
 .card-title {
     text-align: center;
     font-family: 'Orbitron';
@@ -84,7 +123,7 @@ h1 {
     to {opacity: 1; transform: translateY(0);}
 }
 
-/* 하단 버튼 */
+/* 버튼 */
 .btn {
     display: block;
     margin: 15px;
@@ -94,10 +133,33 @@ h1 {
     color: white;
     text-decoration: none;
     font-family: 'Orbitron';
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+/* 버튼 빛 효과 */
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
 }
 
 .main-btn {
     background: #2563eb;
+    box-shadow: 0 0 15px #3b82f6;
 }
 
 .footer {
@@ -106,17 +168,21 @@ h1 {
     color: #64748b;
 }
 </style>
-
 </head>
+
 <body>
+
+<!-- 배경 -->
+<div class="bg-animation"></div>
+<div class="snow"></div>
 
 <h1>2593 KOR ALLIANCE</h1>
 <div class="subtitle">White Out Survival</div>
 
-<!-- 탭 버튼 -->
+<!-- 탭 -->
 <div class="tabs">
-    <button class="tab-btn active" onclick="openTab('kor')">🛡 KOR</button>
-    <button class="tab-btn" onclick="openTab('tem')">🔥 TEM</button>
+    <button class="tab-btn active" onclick="openTab('kor', this)">🛡 KOR</button>
+    <button class="tab-btn" onclick="openTab('tem', this)">🔥 TEM</button>
 </div>
 
 <!-- KOR -->
@@ -147,7 +213,7 @@ h1 {
     - 협동 플레이 중요
 </div>
 
-<!-- 하단 버튼 -->
+<!-- 버튼 -->
 <a class="btn main-btn" href="#">🔥 JOIN KOR</a>
 <a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
 <a class="btn" href="#">📋 가입 신청</a>
@@ -155,21 +221,20 @@ h1 {
 <div class="footer">© KOR Alliance</div>
 
 <script>
-function openTab(tabName) {
-    var i;
+function openTab(tabName, element) {
     var content = document.getElementsByClassName("tab-content");
     var buttons = document.getElementsByClassName("tab-btn");
 
-    for (i = 0; i < content.length; i++) {
+    for (var i = 0; i < content.length; i++) {
         content[i].classList.remove("active");
     }
 
-    for (i = 0; i < buttons.length; i++) {
+    for (var i = 0; i < buttons.length; i++) {
         buttons[i].classList.remove("active");
     }
 
     document.getElementById(tabName).classList.add("active");
-    event.target.classList.add("active");
+    element.classList.add("active");
 }
 </script>
 
