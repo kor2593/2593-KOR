@@ -205,10 +205,9 @@ h1 {
 
 <!-- 🎬 인트로 -->
 <div id="intro">
-  <div class="start-btn" onclick="startIntro()">START</div>
-  <video id="introVideo" muted playsinline>
-    <source src="intro.mp4" type="video/mp4">
-  </video>
+<video id="introVideo" muted playsinline>
+  <source src="intro.mp4" type="video/mp4">
+</video>
 </div>
 
 <!-- 배경 -->
@@ -271,38 +270,37 @@ h1 {
 <div class="footer">© KOR Alliance</div>
 
 <script>
-function startIntro(){
+window.onload = function(){
     let video = document.getElementById("introVideo");
-    let btn = document.querySelector(".start-btn");
 
-    btn.style.display = "none";
-    video.style.display = "block";
+    if(video){
+        // 강제 재생 시도
+        video.play().catch(()=>{
+            // 재생 실패하면 바로 넘어감
+            fadeOutIntro();
+        });
 
-    video.play();
+        video.onended = fadeOutIntro;
 
-    video.onended = fadeOutIntro;
+        // 5초 후 자동 넘어가기 (안전장치)
+        setTimeout(()=>{
+            fadeOutIntro();
+        },5000);
+    }
+};
+
+function skipIntro(){
+    fadeOutIntro();
 }
 
 function fadeOutIntro(){
     let intro = document.getElementById("intro");
+    if(!intro) return;
+
     intro.style.opacity = "0";
-    setTimeout(()=>{ intro.style.display = "none"; },1000);
-}
-
-function openTab(tabName, el) {
-    let content = document.getElementsByClassName("tab-content");
-    let buttons = document.getElementsByClassName("tab-btn");
-
-    for (let i=0;i<content.length;i++){
-        content[i].classList.remove("active");
-    }
-
-    for (let i=0;i<buttons.length;i++){
-        buttons[i].classList.remove("active");
-    }
-
-    document.getElementById(tabName).classList.add("active");
-    el.classList.add("active");
+    setTimeout(()=>{
+        intro.style.display = "none";
+    },1000);
 }
 </script>
 
