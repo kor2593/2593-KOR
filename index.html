@@ -16,13 +16,6 @@ body {
     overflow-x: hidden;
 }
 
-/* UTC */
-.utc {
-    font-size: 12px;
-    color: #94a3b8;
-    opacity: 0.7;
-}
-
 /* 배경 */
 .bg-animation {
     position: fixed;
@@ -34,7 +27,6 @@ body {
     z-index: -2;
 }
 
-/* 눈 */
 .snow {
     position: fixed;
     width: 100%;
@@ -50,33 +42,36 @@ body {
 }
 
 @keyframes moveBg {
-    from { transform: translate(0,0); }
     to { transform: translate(-200px,-200px); }
 }
 
 @keyframes snowFall {
-    from { background-position: 0 0, 0 0, 0 0; }
     to { background-position: 0 500px, 0 300px, 0 700px; }
 }
 
-/* 제목 */
+/* 제목 애니메이션 */
 h1 {
     font-family: 'Orbitron';
     margin-top: 50px;
     font-size: 34px;
     text-shadow: 0 0 10px #3b82f6;
+    animation: fadeUp 1s ease;
 }
 
 .subtitle {
     color: #94a3b8;
+    animation: fadeUp 1.5s ease;
+}
+
+@keyframes fadeUp {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
 }
 
 /* 탭 */
 .tabs {
     display: flex;
     margin: 30px 10px;
-    border-radius: 15px;
-    overflow: hidden;
 }
 
 .tab-btn {
@@ -86,6 +81,7 @@ h1 {
     background: #1e293b;
     border: none;
     color: white;
+    transition: 0.2s;
 }
 
 .tab-btn.active {
@@ -93,7 +89,7 @@ h1 {
     box-shadow: 0 0 10px #3b82f6;
 }
 
-/* 콘텐츠 */
+/* 콘텐츠 애니메이션 */
 .tab-content {
     display: none;
     padding: 20px;
@@ -101,16 +97,17 @@ h1 {
     border-radius: 20px;
     background: linear-gradient(145deg, #1e293b, #020617);
     text-align: left;
+    animation: fadeUp 0.5s ease;
 }
 
 .tab-content.active {
     display: block;
 }
 
+/* 카드 */
 .card-title {
     text-align: center;
     font-family: 'Orbitron';
-    margin-bottom: 15px;
     color: #60a5fa;
 }
 
@@ -119,7 +116,7 @@ h1 {
     color: #3b82f6;
 }
 
-/* 버튼 */
+/* 버튼 애니메이션 */
 .btn {
     display: block;
     margin: 15px;
@@ -131,10 +128,11 @@ h1 {
     font-family: 'Orbitron';
     position: relative;
     overflow: hidden;
+    transition: 0.2s;
 }
 
 .btn:active {
-    transform: scale(0.96);
+    transform: scale(0.95);
 }
 
 .btn::before {
@@ -144,7 +142,7 @@ h1 {
     width: 100%;
     height: 100%;
     background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition: 0.5s;
+    transition: 0.6s;
 }
 
 .btn:hover::before {
@@ -156,17 +154,17 @@ h1 {
     box-shadow: 0 0 15px #3b82f6;
 }
 
+.chat {
+    background: rgba(255,255,255,0.05);
+    padding: 8px;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
 .footer {
     margin-top: 40px;
     font-size: 12px;
     color: #64748b;
-}
-.chat {
-    background: rgba(255,255,255,0.05);
-    padding: 8px 12px;
-    border-radius: 10px;
-    margin: 5px 0;
-    font-size: 14px;
 }
 </style>
 </head>
@@ -182,93 +180,34 @@ WELCOME TO<br>
 </h1>
 <div class="subtitle">White Out Survival</div>
 
-<!-- 탭 -->
 <div class="tabs">
     <button class="tab-btn active" onclick="openTab('kor', this)">🛡 KOR</button>
     <button class="tab-btn" onclick="openTab('tem', this)">🔥 TEM</button>
+    <button class="tab-btn" onclick="openTab('infoCard', this)">📖 INFO</button>
 </div>
 
-<!-- KOR -->
 <div id="kor" class="tab-content active">
     <div class="card-title">🛡 KOR ALLIANCE</div>
 
     <div class="card-sub">⚔️ 곰 사냥</div>
-    1차 : KOR 21:00 <span class="utc">(UTC 12:00)</span><br>
-    2차 : KOR 22:20 <span class="utc">(UTC 13:20)</span><br><br>
-
-    <div class="card-sub"></div>
-
-    🧟 미치광이 조이 & 용병 보스<br>
-    └ KOR 22:00<br><br>
-
-    🏭 무기 공장<br>
-    └ KOR 21:00 / 23:00<br><br>
-
-    🏞️ 협곡<br>
-    └ KOR 10:00 / 21:00 / 23:00
+    1차 : KOR 21:00<br>
+    2차 : KOR 22:20<br><br>
 </div>
 
-<!-- TEM -->
 <div id="tem" class="tab-content">
     <div class="card-title">🔥 TEM ALLIANCE</div>
 
-    <div class="card-sub">⚔️ 곰 사냥</div>
-    1차 : KOR 21:00 <span class="utc">(UTC 12:00)</span><br>
-    2차 : KOR 08:00 <span class="utc">(UTC 23:00)</span><br><br>
-
-    <div class="card-sub"></div>
-
-    🧟 미치광이 조이 & 용병 보스<br>
-    └ KOR 21:00<br><br>
-
-    🏭 무기 공장<br>
-    └ KOR 21:00 / 23:00<br><br>
-
-    🏞️ 협곡<br>
-    └ KOR 21:00 / 23:00
-<div class="card-section">
-  <div class="card-sub">💬 어서와?TEM은 처음이지?</div>
-
-  🧑 라짱<br>
-  └ "편하게 하는데도 참여율 높아서 좋음"<br><br>
-
-  🧑 덕덕<br>
-  └ "부담 없이 즐기기 딱 좋은 분위기"<br><br>
-
-  🧑 LANI<br>
-  └ "사람들이 친해서 금방 적응함"
+    <div class="chat">🧑 라짱 : 참여율 높아서 좋음</div>
+    <div class="chat">🧑 덕덕 : 부담 없음</div>
 </div>
 
-
-<!-- INFO -->
 <div id="infoCard" class="tab-content">
-
-  <div class="card-title">📖 SERVER INFO</div>
-
-  <div class="card-sub">🌍 2593 왕국</div>
-  2593은 <b>“ONE TEAM”</b> 기반의<br>
-  <b>SVS 중심 단합형 왕국</b><br><br>
-
-  <div class="card-sub">⚔️ 운영 방식</div>
-  준비전 + SVS = 축제형 전투 👍<br><br>
-
-  <div class="card-sub">🤝 왕국 구성</div>
-  PHX / TUR / KOR / TEM / ROK<br><br>
-
-  <div class="card-sub">🔥 전투력</div>
-  SVS 경쟁력 확보된 구조<br><br>
-
-  <div class="card-sub">🏆 성과</div>
-  서리병기 7위 → 4강 가능 🔥<br><br>
-
-  <div class="card-sub">🇰🇷 적응</div>
-  한국 유저 많음 / 빠른 적응 가능
+    <div class="card-title">📖 SERVER INFO</div>
+    ONE TEAM / SVS 중심 서버
 </div>
 
-<!-- 버튼 -->
-<a class="btn main-btn" onclick="toggleInfo()">📖 서버 설명</a>
-<a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
-<a class="btn" href="#">📋 가입 신청</a>
+<a class="btn main-btn" onclick="openTab('infoCard', this)">📖 서버 설명</a>
+<a class="btn">💬 문의하기</a>
 
 <div class="footer">© KOR Alliance</div>
 
@@ -286,24 +225,11 @@ function openTab(tabName, el) {
     }
 
     document.getElementById(tabName).classList.add("active");
-    el.classList.add("active");
-}
 
-function toggleInfo(){
-    let content = document.getElementsByClassName("tab-content");
-    let buttons = document.getElementsByClassName("tab-btn");
-
-    for (let i=0;i<content.length;i++){
-        content[i].classList.remove("active");
+    if(el){
+        el.classList.add("active");
     }
-
-    for (let i=0;i<buttons.length;i++){
-        buttons[i].classList.remove("active");
-    }
-
-    document.getElementById("infoCard").classList.add("active");
 }
-
 </script>
 
 </body>
