@@ -127,6 +127,8 @@ White Out Survival
 
 <a class="btn" onclick="toggleKOR()">🛡 KOR 연맹</a>
 
+<a class="btn" onclick="toggleTEM()">🛡 TEM 연맹</a>
+
 <a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
 
 <a class="btn" href="#">📋 가입 신청</a>
@@ -151,6 +153,24 @@ White Out Survival
     - 잘못된 영웅 사용 시 kick
   </div>
 
+<div id="temCard" class="card">
+
+  <div class="card-title">🔥 TEM ALLIANCE</div>
+
+  <div class="card-section">
+    <div class="card-sub">🐻 곰 사냥</div>
+    곰1 : UTC 11:30<br>
+    곰2 : UTC 13:00
+  </div>
+
+  <div class="card-section">
+    <div class="card-sub">📌 규칙</div>
+    - 자유 참여 가능<br>
+    - 집결 우선 참여 권장<br>
+    - 협동 플레이 중요
+  </div>
+
+</div>
 </div>
 
 </div>
@@ -168,6 +188,16 @@ function toggleKOR() {
     card.style.display = "none";
   }
 }
+
+function toggleTEM() {
+  var card = document.getElementById("temCard");
+  if (card.style.display === "none" || card.style.display === "") {
+    card.style.display = "block";
+  } else {
+    card.style.display = "none";
+  }
+}
+</script>
 </script>
 
 </body>
