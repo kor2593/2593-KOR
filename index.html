@@ -16,7 +16,7 @@ body {
     overflow-x: hidden;
 }
 
-/* UTC 스타일 */
+/* UTC */
 .utc {
     font-size: 12px;
     color: #94a3b8;
@@ -220,87 +220,68 @@ WELCOME TO<br>
     🏞️ 협곡<br>
     └ KOR 10:00 / 20:30 / 22:30
 </div>
+
+<!-- INFO -->
 <div id="infoCard" class="tab-content">
 
   <div class="card-title">📖 SERVER INFO</div>
 
-  <div class="card-section">
-    <div class="card-sub">🌍 2593 왕국</div>
-    2593은 <b>“ONE TEAM”</b> 기반으로 운영되는<br>
-    <b>SVS 중심 단합형 왕국</b>입니다.
-  </div>
+  <div class="card-sub">🌍 2593 왕국</div>
+  2593은 <b>“ONE TEAM”</b> 기반의<br>
+  <b>SVS 중심 단합형 왕국</b><br><br>
 
-  <div class="card-section">
-    <div class="card-sub">⚔️ 운영 방식</div>
-    준비전을 함께 경쟁하며 서버 승리를 확보하고<br>
-    SVS 전투는 모두가 함께하는 <b>축제형 이벤트</b>입니다 👍
-  </div>
+  <div class="card-sub">⚔️ 운영 방식</div>
+  준비전 + SVS = 축제형 전투 👍<br><br>
 
-  <div class="card-section">
-    <div class="card-sub">🤝 왕국 구성</div>
-    주요 연맹 5개 운영<br><br>
+  <div class="card-sub">🤝 왕국 구성</div>
+  PHX / TUR / KOR / TEM / ROK<br><br>
 
-    🌐 외국 연맹<br>
-    └ PHX / TUR<br><br>
+  <div class="card-sub">🔥 전투력</div>
+  SVS 경쟁력 확보된 구조<br><br>
 
-    🇰🇷 한국 연맹<br>
-    └ KOR / TEM / ROK<br><br>
+  <div class="card-sub">🏆 성과</div>
+  서리병기 7위 → 4강 가능 🔥<br><br>
 
-    ※ 세부 정보는 문의 바랍니다
-  </div>
-
-  <div class="card-section">
-    <div class="card-sub">🌐 서버 분위기</div>
-    다국적 유저들과 원활한 교류<br>
-    안정적이며 단합력이 뛰어난 서버
-  </div>
-
-  <div class="card-section">
-    <div class="card-sub">🔥 전투력</div>
-    솔라장 / 포탑장 / 중간 집결 전력 충분 확보<br>
-    👉 SVS 경쟁력 보유
-  </div>
-
-  <div class="card-section">
-    <div class="card-sub">🏆 성과</div>
-    서리병기 연합 출전 <b>7위</b><br>
-    👉 함께라면 <b>4강 진출 가능</b>
-  </div>
-
-  <div class="card-section">
-    <div class="card-sub">🇰🇷 적응 환경</div>
-    한국 유저 비율 높음<br><br>
-
-    👉 빠르고 편안한 적응 가능<br>
-    👉 이민 경험 공유로 끈끈한 분위기 ❤️
-  </div>
-
+  <div class="card-sub">🇰🇷 적응</div>
+  한국 유저 많음 / 빠른 적응 가능
 </div>
-</div>
+
 <!-- 버튼 -->
 <a class="btn main-btn" onclick="toggleInfo()">📖 서버 설명</a>
-
 <a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
 <a class="btn" href="#">📋 가입 신청</a>
 
 <div class="footer">© KOR Alliance</div>
 
 <script>
-function toggleInfo(){
+function openTab(tabName, el) {
     let content = document.getElementsByClassName("tab-content");
     let buttons = document.getElementsByClassName("tab-btn");
 
-    // 모든 콘텐츠 숨김
     for (let i=0;i<content.length;i++){
         content[i].classList.remove("active");
     }
 
-    // 탭 버튼 선택 해제
     for (let i=0;i<buttons.length;i++){
         buttons[i].classList.remove("active");
     }
 
-    // INFO만 표시
+    document.getElementById(tabName).classList.add("active");
+    el.classList.add("active");
+}
+
+function toggleInfo(){
+    let content = document.getElementsByClassName("tab-content");
+    let buttons = document.getElementsByClassName("tab-btn");
+
+    for (let i=0;i<content.length;i++){
+        content[i].classList.remove("active");
+    }
+
+    for (let i=0;i<buttons.length;i++){
+        buttons[i].classList.remove("active");
+    }
+
     document.getElementById("infoCard").classList.add("active");
 }
 </script>
