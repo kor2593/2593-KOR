@@ -16,44 +16,7 @@ body {
     overflow-x: hidden;
 }
 
-/* 🎬 인트로 */
-#intro {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: black;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 1s ease;
-}
-
-#intro video {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
-
-.start-btn {
-    font-family: 'Orbitron';
-    font-size: 26px;
-    color: white;
-    border: 2px solid white;
-    padding: 15px 40px;
-    cursor: pointer;
-    z-index: 10;
-    animation: glow 1.5s infinite alternate;
-}
-
-@keyframes glow {
-    from { box-shadow: 0 0 5px white; }
-    to { box-shadow: 0 0 20px #3b82f6; }
-}
-
-/* UTC */
+/* UTC 스타일 */
 .utc {
     font-size: 12px;
     color: #94a3b8;
@@ -203,14 +166,6 @@ h1 {
 
 <body>
 
-<!-- 🎬 인트로 -->
-<div id="intro">
-<video id="introVideo" muted playsinline>
-  <source src="intro.mp4" type="video/mp4">
-</video>
-</div>
-
-<!-- 배경 -->
 <div class="bg-animation"></div>
 <div class="snow"></div>
 
@@ -263,6 +218,7 @@ h1 {
     └ KOR 10:00 / 20:30 / 22:30
 </div>
 
+<!-- 버튼 -->
 <a class="btn main-btn" href="#">📖 서버 설명</a>
 <a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
 <a class="btn" href="#">📋 가입 신청</a>
@@ -270,37 +226,20 @@ h1 {
 <div class="footer">© KOR Alliance</div>
 
 <script>
-window.onload = function(){
-    let video = document.getElementById("introVideo");
+function openTab(tabName, el) {
+    let content = document.getElementsByClassName("tab-content");
+    let buttons = document.getElementsByClassName("tab-btn");
 
-    if(video){
-        // 강제 재생 시도
-        video.play().catch(()=>{
-            // 재생 실패하면 바로 넘어감
-            fadeOutIntro();
-        });
-
-        video.onended = fadeOutIntro;
-
-        // 5초 후 자동 넘어가기 (안전장치)
-        setTimeout(()=>{
-            fadeOutIntro();
-        },5000);
+    for (let i=0;i<content.length;i++){
+        content[i].classList.remove("active");
     }
-};
 
-function skipIntro(){
-    fadeOutIntro();
-}
+    for (let i=0;i<buttons.length;i++){
+        buttons[i].classList.remove("active");
+    }
 
-function fadeOutIntro(){
-    let intro = document.getElementById("intro");
-    if(!intro) return;
-
-    intro.style.opacity = "0";
-    setTimeout(()=>{
-        intro.style.display = "none";
-    },1000);
+    document.getElementById(tabName).classList.add("active");
+    el.classList.add("active");
 }
 </script>
 
