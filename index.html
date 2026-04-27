@@ -15,7 +15,6 @@ body {
     text-align: center;
 }
 
-/* 제목 */
 h1 {
     font-family: 'Orbitron', sans-serif;
     margin-top: 60px;
@@ -25,20 +24,17 @@ h1 {
     text-shadow: 0 0 10px #3b82f6;
 }
 
-/* 설명 */
 .subtitle {
     margin-top: 10px;
     font-size: 16px;
     color: #94a3b8;
 }
 
-/* 버튼 영역 */
 .container {
     margin-top: 40px;
     padding: 0 20px;
 }
 
-/* 버튼 스타일 */
 .btn {
     font-family: 'Orbitron', sans-serif;
     display: block;
@@ -53,7 +49,37 @@ h1 {
     font-weight: bold;
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
     transition: 0.2s;
+}
+
+/* 눌렀을 때 */
+.btn:active {
+    transform: scale(0.96);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.6);
+}
+
+/* 빛 효과 */
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.3),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+/* 터치 / 호버 시 빛 이동 */
+.btn:hover {
+    box-shadow: 0 0 20px rgba(59,130,246,0.6);
 }
 
 .btn:active {
@@ -62,9 +88,8 @@ h1 {
 
 .main-btn {
     background: #2563eb;
+    box-shadow: 0 0 15px #3b82f6;
 }
-
-/* 카드 */
 .card {
     display: none;
     margin-top: 20px;
@@ -113,7 +138,7 @@ h1 {
 <body>
 
 <h1>
-25993 KOR ALLIANCE<br>
+2593 KOR ALLIANCE<br>
 WELCOME
 </h1>
 
@@ -127,7 +152,7 @@ White Out Survival
 
 <a class="btn" onclick="toggleKOR()">🛡 KOR 연맹</a>
 
-<a class="btn" onclick="toggleTEM()">🛡 TEM 연맹</a>
+<a class="btn" onclick="toggleTEM()">🔥 TEM 연맹</a>
 
 <a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
 
@@ -135,9 +160,8 @@ White Out Survival
 
 <a class="btn" href="#">⚔ 전략 가이드</a>
 
-<!-- 카드 UI -->
+<!-- KOR 카드 -->
 <div id="korCard" class="card">
-
   <div class="card-title">🛡 KOR ALLIANCE</div>
 
   <div class="card-section">
@@ -152,9 +176,10 @@ White Out Survival
     - 부대 설정 준수<br>
     - 잘못된 영웅 사용 시 kick
   </div>
+</div>
 
+<!-- TEM 카드 (분리됨) -->
 <div id="temCard" class="card">
-
   <div class="card-title">🔥 TEM ALLIANCE</div>
 
   <div class="card-section">
@@ -169,8 +194,6 @@ White Out Survival
     - 집결 우선 참여 권장<br>
     - 협동 플레이 중요
   </div>
-
-</div>
 </div>
 
 </div>
@@ -181,23 +204,16 @@ White Out Survival
 
 <script>
 function toggleKOR() {
+  document.getElementById("temCard").style.display = "none";
   var card = document.getElementById("korCard");
-  if (card.style.display === "none" || card.style.display === "") {
-    card.style.display = "block";
-  } else {
-    card.style.display = "none";
-  }
+  card.style.display = (card.style.display === "block") ? "none" : "block";
 }
 
 function toggleTEM() {
+  document.getElementById("korCard").style.display = "none";
   var card = document.getElementById("temCard");
-  if (card.style.display === "none" || card.style.display === "") {
-    card.style.display = "block";
-  } else {
-    card.style.display = "none";
-  }
+  card.style.display = (card.style.display === "block") ? "none" : "block";
 }
-</script>
 </script>
 
 </body>
