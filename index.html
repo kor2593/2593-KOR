@@ -86,6 +86,18 @@ White Out Survival
 </div>
 
 <div class="container">
+<div id="korInfo" style="display:none; margin-top:20px; font-size:18px; line-height:1.6;">
+🛡 KOR 연맹 안내<br><br>
+
+🐻 곰 사냥<br>
+곰1 : UTC 12:00<br>
+곰2 : UTC 13:20<br><br>
+
+📌 참여 규칙<br>
+- 집결 참여 필수<br>
+- 부대 설정 준수<br>
+- 잘못된 영웅 사용 시 kick
+</div>
 
 <a class="btn main-btn" href="#">🔥 JOIN KOR</a>
 
@@ -102,6 +114,15 @@ White Out Survival
 <div class="footer">
 © KOR Alliance Minions
 </div>
-
+<script>
+function toggleKOR() {
+  var x = document.getElementById("korInfo");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+</script>
 </body>
 </html>
