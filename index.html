@@ -286,31 +286,22 @@ WELCOME TO<br>
 <div class="footer">© KOR Alliance</div>
 
 <script>
-function openTab(tabName, el) {
+function toggleInfo(){
     let content = document.getElementsByClassName("tab-content");
     let buttons = document.getElementsByClassName("tab-btn");
 
+    // 모든 콘텐츠 숨김
     for (let i=0;i<content.length;i++){
         content[i].classList.remove("active");
     }
 
+    // 탭 버튼 선택 해제
     for (let i=0;i<buttons.length;i++){
         buttons[i].classList.remove("active");
     }
 
-    document.getElementById(tabName).classList.add("active");
-    el.classList.add("active");
-}
-
-function toggleInfo(){
-    let kor = document.getElementById("kor");
-    let tem = document.getElementById("tem");
-    let info = document.getElementById("infoCard");
-
-    kor.classList.remove("active");
-    tem.classList.remove("active");
-
-    info.classList.add("active");
+    // INFO만 표시
+    document.getElementById("infoCard").classList.add("active");
 }
 </script>
 
