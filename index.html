@@ -17,118 +17,91 @@ body {
 
 h1 {
     font-family: 'Orbitron', sans-serif;
-    margin-top: 60px;
-    font-size: 36px;
-    font-weight: 800;
-    letter-spacing: 2px;
+    margin-top: 50px;
+    font-size: 34px;
     text-shadow: 0 0 10px #3b82f6;
 }
 
 .subtitle {
-    margin-top: 10px;
-    font-size: 16px;
     color: #94a3b8;
 }
 
-.container {
-    margin-top: 40px;
-    padding: 0 20px;
+/* 탭 메뉴 */
+.tabs {
+    display: flex;
+    margin: 30px 10px;
+    border-radius: 15px;
+    overflow: hidden;
 }
 
-.btn {
-    font-family: 'Orbitron', sans-serif;
-    display: block;
-    width: 100%;
-    margin: 15px 0;
-    padding: 22px;
-    border-radius: 18px;
+.tab-btn {
+    flex: 1;
+    padding: 15px;
+    font-family: 'Orbitron';
     background: #1e293b;
+    border: none;
     color: white;
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: bold;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255,255,255,0.1);
-    position: relative;
-    overflow: hidden;
+    font-size: 16px;
+    cursor: pointer;
     transition: 0.2s;
 }
 
-/* 눌렀을 때 */
-.btn:active {
-    transform: scale(0.96);
-    box-shadow: 0 3px 10px rgba(0,0,0,0.6);
-}
-
-/* 빛 효과 */
-.btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        120deg,
-        transparent,
-        rgba(255,255,255,0.3),
-        transparent
-    );
-    transition: 0.5s;
-}
-
-/* 터치 / 호버 시 빛 이동 */
-.btn:hover {
-    box-shadow: 0 0 20px rgba(59,130,246,0.6);
-}
-
-.btn:active {
-    transform: scale(0.97);
-}
-
-.main-btn {
+.tab-btn.active {
     background: #2563eb;
-    box-shadow: 0 0 15px #3b82f6;
+    box-shadow: 0 0 10px #3b82f6;
 }
-.card {
+
+/* 내용 영역 */
+.tab-content {
     display: none;
-    margin-top: 20px;
     padding: 20px;
+    margin: 10px;
     border-radius: 20px;
     background: linear-gradient(145deg, #1e293b, #020617);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    border: 1px solid rgba(59,130,246,0.4);
     text-align: left;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.3s;
 }
 
+.tab-content.active {
+    display: block;
+}
+
+/* 카드 스타일 */
 .card-title {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 20px;
-    margin-bottom: 15px;
     text-align: center;
-    color: #60a5fa;
-    text-shadow: 0 0 10px #3b82f6;
-}
-
-.card-section {
+    font-family: 'Orbitron';
     margin-bottom: 15px;
-    font-size: 16px;
+    color: #60a5fa;
 }
 
 .card-sub {
     font-weight: bold;
-    margin-bottom: 5px;
     color: #3b82f6;
 }
 
 @keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
+    from {opacity: 0; transform: translateY(10px);}
     to {opacity: 1; transform: translateY(0);}
 }
 
+/* 하단 버튼 */
+.btn {
+    display: block;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #1e293b;
+    color: white;
+    text-decoration: none;
+    font-family: 'Orbitron';
+}
+
+.main-btn {
+    background: #2563eb;
+}
+
 .footer {
-    margin-top: 50px;
+    margin-top: 40px;
     font-size: 12px;
     color: #64748b;
 }
@@ -137,82 +110,66 @@ h1 {
 </head>
 <body>
 
-<h1>
-2593 KOR ALLIANCE<br>
-WELCOME
-</h1>
+<h1>2593 KOR ALLIANCE</h1>
+<div class="subtitle">White Out Survival</div>
 
-<div class="subtitle">
-White Out Survival
+<!-- 탭 버튼 -->
+<div class="tabs">
+    <button class="tab-btn active" onclick="openTab('kor')">🛡 KOR</button>
+    <button class="tab-btn" onclick="openTab('tem')">🔥 TEM</button>
 </div>
 
-<div class="container">
+<!-- KOR -->
+<div id="kor" class="tab-content active">
+    <div class="card-title">🛡 KOR ALLIANCE</div>
 
-<a class="btn main-btn" href="#">🔥 JOIN KOR</a>
-
-<a class="btn" onclick="toggleKOR()">🛡 KOR 연맹</a>
-
-<a class="btn" onclick="toggleTEM()">🔥 TEM 연맹</a>
-
-<a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
-
-<a class="btn" href="#">📋 가입 신청</a>
-
-<a class="btn" href="#">⚔ 전략 가이드</a>
-
-<!-- KOR 카드 -->
-<div id="korCard" class="card">
-  <div class="card-title">🛡 KOR ALLIANCE</div>
-
-  <div class="card-section">
     <div class="card-sub">🐻 곰 사냥</div>
     곰1 : UTC 12:00<br>
-    곰2 : UTC 13:20
-  </div>
+    곰2 : UTC 13:20<br><br>
 
-  <div class="card-section">
     <div class="card-sub">📌 규칙</div>
     - 집결 참여 필수<br>
     - 부대 설정 준수<br>
     - 잘못된 영웅 사용 시 kick
-  </div>
 </div>
 
-<!-- TEM 카드 (분리됨) -->
-<div id="temCard" class="card">
-  <div class="card-title">🔥 TEM ALLIANCE</div>
+<!-- TEM -->
+<div id="tem" class="tab-content">
+    <div class="card-title">🔥 TEM ALLIANCE</div>
 
-  <div class="card-section">
     <div class="card-sub">🐻 곰 사냥</div>
     곰1 : UTC 11:30<br>
-    곰2 : UTC 13:00
-  </div>
+    곰2 : UTC 13:00<br><br>
 
-  <div class="card-section">
     <div class="card-sub">📌 규칙</div>
     - 자유 참여 가능<br>
     - 집결 우선 참여 권장<br>
     - 협동 플레이 중요
-  </div>
 </div>
 
-</div>
+<!-- 하단 버튼 -->
+<a class="btn main-btn" href="#">🔥 JOIN KOR</a>
+<a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
+<a class="btn" href="#">📋 가입 신청</a>
 
-<div class="footer">
-© KOR Alliance Minions
-</div>
+<div class="footer">© KOR Alliance</div>
 
 <script>
-function toggleKOR() {
-  document.getElementById("temCard").style.display = "none";
-  var card = document.getElementById("korCard");
-  card.style.display = (card.style.display === "block") ? "none" : "block";
-}
+function openTab(tabName) {
+    var i;
+    var content = document.getElementsByClassName("tab-content");
+    var buttons = document.getElementsByClassName("tab-btn");
 
-function toggleTEM() {
-  document.getElementById("korCard").style.display = "none";
-  var card = document.getElementById("temCard");
-  card.style.display = (card.style.display === "block") ? "none" : "block";
+    for (i = 0; i < content.length; i++) {
+        content[i].classList.remove("active");
+    }
+
+    for (i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove("active");
+    }
+
+    document.getElementById(tabName).classList.add("active");
+    event.target.classList.add("active");
 }
 </script>
 
