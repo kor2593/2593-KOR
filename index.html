@@ -16,11 +16,38 @@ body {
     overflow-x: hidden;
 }
 
-/* 배경 움직임 */
-.bg-animation {
+/* 🎬 인트로 */
+#intro {
     position: fixed;
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    z-index: 9999;
+    transition: opacity 1s ease;
+}
+
+#intro video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.skip {
+    position: absolute;
+    bottom: 40px;
+    right: 20px;
+    font-family: 'Orbitron';
+    font-size: 14px;
+    border: 1px solid white;
+    padding: 8px 15px;
+    opacity: 0.7;
+}
+
+/* 🌌 배경 */
+.bg-animation {
+    position: fixed;
     width: 200%;
     height: 200%;
     background: radial-gradient(circle, rgba(59,130,246,0.15) 1px, transparent 1px);
@@ -29,16 +56,14 @@ body {
     z-index: -2;
 }
 
-/* 눈 효과 */
+/* ❄ 눈 */
 .snow {
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
     z-index: -1;
-    background-image: 
+    background-image:
         radial-gradient(white 1px, transparent 1px),
         radial-gradient(white 1px, transparent 1px),
         radial-gradient(white 2px, transparent 2px);
@@ -58,7 +83,7 @@ body {
 
 /* 제목 */
 h1 {
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Orbitron';
     margin-top: 50px;
     font-size: 34px;
     text-shadow: 0 0 10px #3b82f6;
@@ -83,7 +108,6 @@ h1 {
     background: #1e293b;
     border: none;
     color: white;
-    font-size: 16px;
 }
 
 .tab-btn.active {
@@ -91,7 +115,7 @@ h1 {
     box-shadow: 0 0 10px #3b82f6;
 }
 
-/* 내용 */
+/* 콘텐츠 */
 .tab-content {
     display: none;
     padding: 20px;
@@ -119,8 +143,8 @@ h1 {
 }
 
 @keyframes fadeIn {
-    from {opacity: 0; transform: translateY(10px);}
-    to {opacity: 1; transform: translateY(0);}
+    from {opacity: 0;}
+    to {opacity: 1;}
 }
 
 /* 버튼 */
@@ -141,11 +165,9 @@ h1 {
     transform: scale(0.96);
 }
 
-/* 버튼 빛 효과 */
 .btn::before {
     content: "";
     position: absolute;
-    top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
@@ -172,6 +194,14 @@ h1 {
 
 <body>
 
+<!-- 🎬 인트로 -->
+<div id="intro">
+  <video id="introVideo" autoplay muted playsinline>
+    <source src="intro.mp4" type="video/mp4">
+  </video>
+  <div class="skip" onclick="skipIntro()">SKIP</div>
+</div>
+
 <!-- 배경 -->
 <div class="bg-animation"></div>
 <div class="snow"></div>
@@ -188,7 +218,6 @@ h1 {
 <!-- KOR -->
 <div id="kor" class="tab-content active">
     <div class="card-title">🛡 KOR ALLIANCE</div>
-
     <div class="card-sub">🐻 곰 사냥</div>
     곰1 : UTC 12:00<br>
     곰2 : UTC 13:20<br><br>
@@ -202,7 +231,6 @@ h1 {
 <!-- TEM -->
 <div id="tem" class="tab-content">
     <div class="card-title">🔥 TEM ALLIANCE</div>
-
     <div class="card-sub">🐻 곰 사냥</div>
     곰1 : UTC 11:30<br>
     곰2 : UTC 13:00<br><br>
@@ -213,7 +241,6 @@ h1 {
     - 협동 플레이 중요
 </div>
 
-<!-- 버튼 -->
 <a class="btn main-btn" href="#">🔥 JOIN KOR</a>
 <a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
 <a class="btn" href="#">📋 가입 신청</a>
@@ -221,20 +248,40 @@ h1 {
 <div class="footer">© KOR Alliance</div>
 
 <script>
-function openTab(tabName, element) {
-    var content = document.getElementsByClassName("tab-content");
-    var buttons = document.getElementsByClassName("tab-btn");
+function openTab(tabName, el) {
+    let content = document.getElementsByClassName("tab-content");
+    let buttons = document.getElementsByClassName("tab-btn");
 
-    for (var i = 0; i < content.length; i++) {
+    for (let i=0;i<content.length;i++){
         content[i].classList.remove("active");
     }
 
-    for (var i = 0; i < buttons.length; i++) {
+    for (let i=0;i<buttons.length;i++){
         buttons[i].classList.remove("active");
     }
 
     document.getElementById(tabName).classList.add("active");
-    element.classList.add("active");
+    el.classList.add("active");
+}
+
+/* 🎬 인트로 페이드 */
+window.onload = function(){
+    let intro = document.getElementById("intro");
+    let video = document.getElementById("introVideo");
+
+    video.onended = fadeOutIntro;
+};
+
+function skipIntro(){
+    fadeOutIntro();
+}
+
+function fadeOutIntro(){
+    let intro = document.getElementById("intro");
+    intro.style.opacity = "0";
+    setTimeout(()=>{
+        intro.style.display = "none";
+    },1000);
 }
 </script>
 
