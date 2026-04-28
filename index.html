@@ -279,16 +279,6 @@ h1 {
 }
 /* 팝업 */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 9999;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
-}
-.modal {
     display: none;   /* ⭐ 이것만 남겨 */
     position: fixed;
     top: 0;
@@ -668,10 +658,107 @@ window.onclick = function(e) {
   if (e.target === schedule) schedule.style.display = "none";
 }
 
+<script>
+function openTab(tabName, el) {
+    let content = document.getElementsByClassName("tab-content");
+    let buttons = document.getElementsByClassName("tab-btn");
+
+    for (let i=0;i<content.length;i++){
+        content[i].classList.remove("active");
+    }
+
+    for (let i=0;i<buttons.length;i++){
+        buttons[i].classList.remove("active");
+    }
+
+    document.getElementById(tabName).classList.add("active");
+
+    if(el){
+        el.classList.add("active");
+    }
+}
+
+function openSchedule(){
+    document.getElementById("schedulePopup").style.display = "flex";
+}
+
+function closeSchedule(){
+    document.getElementById("schedulePopup").style.display = "none";
+}
+
+function openFAQ(){
+    document.getElementById("faqPopup").style.display = "flex";
+}
+
+function closeFAQ(){
+    document.getElementById("faqPopup").style.display = "none";
+}
+
+function toggleFAQ(el){
+    el.classList.toggle("active");
+}
+
+window.onclick = function(e) {
+  let faq = document.getElementById("faqPopup");
+  let schedule = document.getElementById("schedulePopup");
+
+  if (e.target === faq) faq.style.display = "none";
+  if (e.target === schedule) schedule.style.display = "none";
+}
+
+// 🔥 이벤트 타이머
+function getNextEvent() {
+    const now = new Date();
+    const events = [];
+
+    const bearTimes = ["21:00", "22:20"];
+    const bearStart = new Date("2026-04-28");
+
+    for(let i=0;i<10;i++){
+        let d = new Date(bearStart);
+        d.setDate(d.getDate() + i*2);
+
+        bearTimes.forEach(t=>{
+            let [h,m] = t.split(":");
+            let eventTime = new Date(d);
+            eventTime.setHours(h,m,0);
+
+            if(eventTime > now){
+                events.push({name:"🐻 곰 사냥", time:eventTime});
+            }
+        });
+    }
+
+    events.sort((a,b)=>a.time-b.time);
+    return events[0];
+}
+
+function updateEvent() {
+    const e = getNextEvent();
+    if(!e) return;
+
+    const now = new Date();
+    const diff = e.time - now;
+
+    const hours = Math.floor(diff/1000/60/60);
+    const minutes = Math.floor((diff/1000/60)%60);
+
+    document.getElementById("eventText").innerHTML =
+        `${e.name}<br>${e.time.toLocaleString()}<br>⏳ ${hours}시간 ${minutes}분 남음`;
+}
+
+setInterval(updateEvent, 1000);
+updateEvent();
+
+
+// =====================
+// 🎮 미니게임
+// =====================
 document.addEventListener("DOMContentLoaded", function(){
 
   let score = 0;
   let combo = 0;
+  let maxCombo = 0;
   let time = 60;
 
   let gameInterval;
@@ -691,6 +778,7 @@ document.addEventListener("DOMContentLoaded", function(){
   function startGame(){
     score = 0;
     combo = 0;
+    maxCombo = 0;
     time = 60;
 
     document.getElementById("score").innerText = score;
@@ -725,9 +813,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
     clearInterval(gameInterval);
 
-    // 🔥 콤보 높을수록 빨라짐
     let speed = Math.max(200, 800 - combo * 40);
-
     gameInterval = setInterval(moveBear, speed);
   }
 
@@ -735,11 +821,17 @@ document.addEventListener("DOMContentLoaded", function(){
     e.stopPropagation();
 
     combo++;
-    score += 1 + Math.floor(combo / 5); // 🔥 콤보 보너스
+
+    if(combo > maxCombo){
+      maxCombo = combo;
+    }
+
+    score += 1 + Math.floor(combo / 5);
 
     document.getElementById("score").innerText = score;
     document.getElementById("combo").innerText = combo;
 
+    // 💥 히트 효과
     let rect = document.getElementById("gameArea").getBoundingClientRect();
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
@@ -750,12 +842,20 @@ document.addEventListener("DOMContentLoaded", function(){
     effect.style.display = "block";
 
     setTimeout(()=> effect.style.display = "none", 150);
+
+    // 🔥 콤보 10 이상 효과
+    if(combo >= 10){
+      document.body.style.boxShadow = "0 0 40px #facc15 inset";
+      setTimeout(()=>{
+        document.body.style.boxShadow = "none";
+      },100);
+    }
   }
 
   document.getElementById("gameArea").onclick = function(e){
     if(e.target.id !== "bear"){
 
-      combo = 0; // ❌ 미스 → 콤보 초기화
+      combo = 0;
       document.getElementById("combo").innerText = combo;
 
       let rect = document.getElementById("gameArea").getBoundingClientRect();
@@ -780,7 +880,7 @@ document.addEventListener("DOMContentLoaded", function(){
       localStorage.setItem("bestScore", score);
     }
 
-    alert("🎮 점수: " + score + " (최대 콤보🔥 " + combo + ")");
+    alert("🎮 점수: " + score + " (최대 콤보🔥 " + maxCombo + ")");
     closeGame();
   }
 
