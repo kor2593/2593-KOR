@@ -754,6 +754,58 @@ updateEvent();
 // =====================
 // 🎮 미니게임
 // =====================
+
+function openTab(tabName, el) {
+    let content = document.getElementsByClassName("tab-content");
+    let buttons = document.getElementsByClassName("tab-btn");
+
+    for (let i=0;i<content.length;i++){
+        content[i].classList.remove("active");
+    }
+
+    for (let i=0;i<buttons.length;i++){
+        buttons[i].classList.remove("active");
+    }
+
+    document.getElementById(tabName).classList.add("active");
+
+    if(el){
+        el.classList.add("active");
+    }
+}
+
+function openSchedule(){
+    document.getElementById("schedulePopup").style.display = "flex";
+}
+
+function closeSchedule(){
+    document.getElementById("schedulePopup").style.display = "none";
+}
+
+function openFAQ(){
+    document.getElementById("faqPopup").style.display = "flex";
+}
+
+function closeFAQ(){
+    document.getElementById("faqPopup").style.display = "none";
+}
+
+function toggleFAQ(el){
+    el.classList.toggle("active");
+}
+
+window.onclick = function(e) {
+  let faq = document.getElementById("faqPopup");
+  let schedule = document.getElementById("schedulePopup");
+
+  if (e.target === faq) faq.style.display = "none";
+  if (e.target === schedule) schedule.style.display = "none";
+}
+
+
+// =====================
+// 🎮 미니게임
+// =====================
 document.addEventListener("DOMContentLoaded", function(){
 
   let score = 0;
@@ -785,11 +837,16 @@ document.addEventListener("DOMContentLoaded", function(){
     document.getElementById("combo").innerText = combo;
     document.getElementById("time").innerText = time;
 
+    // 👉 최대콤보 표시용 (HTML에 span 필요)
+    if(document.getElementById("maxCombo")){
+      document.getElementById("maxCombo").innerText = maxCombo;
+    }
+
     let best = localStorage.getItem("bestScore") || 0;
     document.getElementById("best").innerText = best;
 
     moveBear();
-    gameInterval = setInterval(moveBear, 800);
+    gameInterval = setInterval(moveBear, 900); // 🔥 전체 속도 살짝 느림
 
     timerInterval = setInterval(()=>{
       time--;
@@ -813,7 +870,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
     clearInterval(gameInterval);
 
-    let speed = Math.max(200, 800 - combo * 40);
+    // 🔥 콤보 영향 속도 (완만하게 조정)
+    let speed = Math.max(350, 900 - combo * 25);
+
     gameInterval = setInterval(moveBear, speed);
   }
 
@@ -822,11 +881,17 @@ document.addEventListener("DOMContentLoaded", function(){
 
     combo++;
 
+    // 🔥 최대콤보 기록
     if(combo > maxCombo){
       maxCombo = combo;
+
+      if(document.getElementById("maxCombo")){
+        document.getElementById("maxCombo").innerText = maxCombo;
+      }
     }
 
-    score += 1 + Math.floor(combo / 5);
+    // 🔥 콤보 기반 점수 (강화됨)
+    score += 1 + combo;
 
     document.getElementById("score").innerText = score;
     document.getElementById("combo").innerText = combo;
@@ -841,14 +906,22 @@ document.addEventListener("DOMContentLoaded", function(){
     effect.style.top = y + "px";
     effect.style.display = "block";
 
-    setTimeout(()=> effect.style.display = "none", 150);
+    setTimeout(()=> effect.style.display = "none", 120);
 
-    // 🔥 콤보 10 이상 효과
+    // 🔥🔥 콤보 10 이상 효과
     if(combo >= 10){
-      document.body.style.boxShadow = "0 0 40px #facc15 inset";
+
+      // 화면 흔들림
+      document.getElementById("gameArea").style.transform = "scale(1.03)";
+      setTimeout(()=>{
+        document.getElementById("gameArea").style.transform = "scale(1)";
+      },80);
+
+      // 화면 빛 효과
+      document.body.style.boxShadow = "0 0 60px #facc15 inset";
       setTimeout(()=>{
         document.body.style.boxShadow = "none";
-      },100);
+      },120);
     }
   }
 
@@ -867,7 +940,7 @@ document.addEventListener("DOMContentLoaded", function(){
       miss.style.top = y + "px";
       miss.style.display = "block";
 
-      setTimeout(()=> miss.style.display = "none", 150);
+      setTimeout(()=> miss.style.display = "none", 120);
     }
   }
 
