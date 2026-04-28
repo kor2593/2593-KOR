@@ -307,18 +307,30 @@ h1 {
 }
 
 /* 게임 영역 */
+
 #gameArea {
     position: relative;
-    height: 220px;
+    height: 360px;
     border: 1px solid #444;
     margin: 20px 0;
     overflow: hidden;
+    border-radius: 15px;
 }
 
 #bear {
     position: absolute;
-    font-size: 40px;
+    font-size: 60px;
     cursor: pointer;
+}
+
+.modal-content {
+    background: #020617;
+    padding: 20px;
+    border-radius: 20px;
+    width: 95%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(59,130,246,0.5);
 }
 
 #effect {
@@ -482,9 +494,10 @@ WELCOME TO<br>
   <div class="modal-content">
 
     <h2>🐻 곰 사냥!</h2>
-    <p>⏱ <span id="time">10</span>초</p>
-    <p>🎯 <span id="score">0</span>점</p>
-    <p>🏆 최고 <span id="best">0</span></p>
+<p>⏱ <span id="time">60</span>초</p>
+<p>🎯 <span id="score">0</span>점</p>
+<p>🔥 콤보 <span id="combo">0</span></p>
+<p>🏆 최고 <span id="best">0</span></p>
 
     <div id="gameArea">
       <div id="bear">🐻</div>
@@ -659,7 +672,9 @@ window.onclick = function(e) {
 document.addEventListener("DOMContentLoaded", function(){
 
   let score = 0;
-  let time = 10;
+  let combo = 0;
+  let time = 60;
+
   let gameInterval;
   let timerInterval;
 
@@ -676,9 +691,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
   function startGame(){
     score = 0;
-    time = 10;
+    combo = 0;
+    time = 60;
 
     document.getElementById("score").innerText = score;
+    document.getElementById("combo").innerText = combo;
     document.getElementById("time").innerText = time;
 
     let best = localStorage.getItem("bestScore") || 0;
@@ -701,22 +718,28 @@ document.addEventListener("DOMContentLoaded", function(){
     let bear = document.getElementById("bear");
     let area = document.getElementById("gameArea");
 
-    let x = Math.random() * (area.clientWidth - 40);
-    let y = Math.random() * (area.clientHeight - 40);
+    let x = Math.random() * (area.clientWidth - 60);
+    let y = Math.random() * (area.clientHeight - 60);
 
     bear.style.left = x + "px";
     bear.style.top = y + "px";
 
     clearInterval(gameInterval);
-    let speed = Math.max(300, 800 - score * 30);
+
+    // 🔥 콤보 높을수록 빨라짐
+    let speed = Math.max(200, 800 - combo * 40);
+
     gameInterval = setInterval(moveBear, speed);
   }
 
   document.getElementById("bear").onclick = function(e){
     e.stopPropagation();
 
-    score++;
+    combo++;
+    score += 1 + Math.floor(combo / 5); // 🔥 콤보 보너스
+
     document.getElementById("score").innerText = score;
+    document.getElementById("combo").innerText = combo;
 
     let rect = document.getElementById("gameArea").getBoundingClientRect();
     let x = e.clientX - rect.left;
@@ -727,11 +750,14 @@ document.addEventListener("DOMContentLoaded", function(){
     effect.style.top = y + "px";
     effect.style.display = "block";
 
-    setTimeout(()=> effect.style.display = "none", 200);
+    setTimeout(()=> effect.style.display = "none", 150);
   }
 
   document.getElementById("gameArea").onclick = function(e){
     if(e.target.id !== "bear"){
+
+      combo = 0; // ❌ 미스 → 콤보 초기화
+      document.getElementById("combo").innerText = combo;
 
       let rect = document.getElementById("gameArea").getBoundingClientRect();
       let x = e.clientX - rect.left;
@@ -742,7 +768,7 @@ document.addEventListener("DOMContentLoaded", function(){
       miss.style.top = y + "px";
       miss.style.display = "block";
 
-      setTimeout(()=> miss.style.display = "none", 200);
+      setTimeout(()=> miss.style.display = "none", 150);
     }
   }
 
@@ -755,7 +781,7 @@ document.addEventListener("DOMContentLoaded", function(){
       localStorage.setItem("bestScore", score);
     }
 
-    alert("🎮 점수: " + score);
+    alert("🎮 점수: " + score + " (최대 콤보🔥 " + combo + ")");
     closeGame();
   }
 
