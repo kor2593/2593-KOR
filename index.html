@@ -406,24 +406,6 @@ WELCOME TO<br>
   <img src="schedule.jpg" alt="일정표">
 </div>
 
-<a class="btn" onclick="openGuest()">💬 방명록</a>
-<div id="guestPopup" class="popup">
-
-  <div class="game-card">
-    <div class="close" onclick="closeGuest()">✕</div>
-
-    <div class="card-title">💬 GUEST BOOK</div>
-
-    <input id="name" placeholder="닉네임">
-    <input id="message" placeholder="한마디 남겨주세요">
-
-    <button class="btn" onclick="addMessage()">작성</button>
-
-    <div id="guestList"></div>
-  </div>
-
-</div>
-
     <!--이벤트시간 -->
     <div id="eventBox" style="margin:15px;">
   <div class="card-title">🚀 NEXT EVENT</div>
@@ -561,30 +543,6 @@ function updateEvent() {
 
 setInterval(updateEvent, 1000);
 updateEvent();
-
-function openGuest(){
-    document.getElementById("guestPopup").style.display = "flex";
-}
-
-function closeGuest(){
-    document.getElementById("guestPopup").style.display = "none";
-}
-
-function addMessage(){
-    let name = document.getElementById("name").value;
-    let msg = document.getElementById("message").value;
-
-    if(!name || !msg) return;
-
-    let box = document.createElement("div");
-    box.className = "chat";
-    box.innerHTML = `🧑 ${name} : ${msg}`;
-
-    document.getElementById("guestList").prepend(box);
-
-    document.getElementById("name").value = "";
-    document.getElementById("message").value = "";
-}
 
 function toggleFAQ(el){
     el.classList.toggle("active");
