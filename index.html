@@ -210,21 +210,24 @@ h1 {
     color: white;
     cursor: pointer;
 }
-
 .game-card {
-    position: relative; /* ⭐ 이거 유지 */
+    position: relative;
 
     background: linear-gradient(145deg, #1e293b, #020617);
     border: 1px solid rgba(59,130,246,0.5);
     box-shadow: 0 0 30px rgba(59,130,246,0.6);
+
     padding: 20px;
     border-radius: 20px;
     width: 90%;
     max-width: 400px;
+
     text-align: center;
     animation: pop 0.3s ease;
-}
 
+    max-height: 80vh;
+    overflow-y: auto;
+}
 .game-card input {
     width: 90%;
     padding: 10px;
@@ -233,6 +236,9 @@ h1 {
     border: none;
     background: #0f172a;
     color: white;
+}
+.popup {
+    overflow-y: auto; /* ⭐ 이거 추가 */
 }
 
 @keyframes pop {
@@ -547,6 +553,14 @@ function closeFAQ(){
 
 function toggleFAQ(el){
     el.classList.toggle("active");
+}
+
+window.onclick = function(e) {
+  let faq = document.getElementById("faqPopup");
+  let schedule = document.getElementById("schedulePopup");
+
+  if (e.target === faq) faq.style.display = "none";
+  if (e.target === schedule) schedule.style.display = "none";
 }
 </script>
 
