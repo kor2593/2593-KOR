@@ -421,6 +421,14 @@ WELCOME TO<br>
   <img src="schedule.jpg" alt="일정표">
 </div>
 
+<a class="btn" onclick="startGame()">🎮 미니게임</a>
+<div id="gameBox" style="display:none; text-align:center; margin-top:20px;">
+  <h2>🐻 곰 사냥!</h2>
+  <p>점수: <span id="score">0</span></p>
+  <div id="bear" style="font-size:50px; margin:30px; cursor:pointer;">🐻</div>
+  <button onclick="endGame()">종료</button>
+</div>
+
     <!--이벤트시간 -->
     <div id="eventBox" style="margin:15px;">
   <div class="card-title">🚀 NEXT EVENT</div>
@@ -578,6 +586,36 @@ window.onclick = function(e) {
   if (e.target === faq) faq.style.display = "none";
   if (e.target === schedule) schedule.style.display = "none";
 }
+
+let score = 0;
+let gameInterval;
+
+function startGame(){
+  document.getElementById("gameBox").style.display = "block";
+  score = 0;
+  document.getElementById("score").innerText = score;
+
+  moveBear();
+  gameInterval = setInterval(moveBear, 800);
+}
+
+function moveBear(){
+  let bear = document.getElementById("bear");
+  let x = Math.random() * 200 - 100;
+  let y = Math.random() * 200 - 100;
+  bear.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+document.getElementById("bear").onclick = function(){
+  score++;
+  document.getElementById("score").innerText = score;
+}
+
+function endGame(){
+  clearInterval(gameInterval);
+  document.getElementById("gameBox").style.display = "none";
+}
+
 </script>
 
 </body>
