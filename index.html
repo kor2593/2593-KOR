@@ -292,7 +292,11 @@ WELCOME TO<br>
   <span class="close" onclick="closeSchedule()">✕</span>
   <img src="schedule.jpg" alt="일정표">
 </div>
-
+    <!--이벤트시간 -->
+    <div id="eventBox" class="tab-content active" style="margin:15px;">
+  <div class="card-title">🚀 NEXT EVENT</div>
+  <div id="eventText" style="text-align:center; font-size:18px;"></div>
+    </div>
 <div class="footer">© KOR Alliance Made by 언즈 </div>
 
 <script>
@@ -322,6 +326,109 @@ function openSchedule(){
 function closeSchedule(){
     document.getElementById("schedulePopup").style.display = "none";
 }
+    
+function getNextEvent() {
+    const now = new Date();
+    const events = [];
+
+    // 🔥 곰 (2일 간격)
+    const bearTimes = ["21:00", "22:20"];
+    const bearStart = new Date("2026-04-28");
+
+    for(let i=0;i<10;i++){
+        let d = new Date(bearStart);
+        d.setDate(d.getDate() + i*2);
+
+        bearTimes.forEach(t=>{
+            let [h,m] = t.split(":");
+            let eventTime = new Date(d);
+            eventTime.setHours(h,m,0);
+
+            if(eventTime > now){
+                events.push({name:"🐻 곰 사냥", time:eventTime});
+            }
+        });
+    }
+
+    // 🔥 무기공장 (2주 간격 / 일요일 시작)
+    const factoryStart = new Date("2026-05-03"); // 이번주 일요일 기준
+
+    for(let i=0;i<5;i++){
+        let d = new Date(factoryStart);
+        d.setDate(d.getDate() + i*14);
+
+        ["21:00","23:00"].forEach(t=>{
+            let [h,m] = t.split(":");
+            let eventTime = new Date(d);
+            eventTime.setHours(h,m,0);
+
+            if(eventTime > now){
+                events.push({name:"🏭 무기 공장", time:eventTime});
+            }
+        });
+    }
+
+    // 🔥 조이 (화/목 2주 간격)
+    const joyStart = new Date("2026-05-05"); // 다음주 화요일 기준
+
+    for(let i=0;i<5;i++){
+        let d = new Date(joyStart);
+        d.setDate(d.getDate() + i*14);
+
+        ["0","2"].forEach(dayOffset=>{
+            let day = new Date(d);
+            day.setDate(day.getDate() + parseInt(dayOffset));
+
+            let eventTime = new Date(day);
+            eventTime.setHours(22,0,0);
+
+            if(eventTime > now){
+                events.push({name:"🧟 조이 & 용병 보스", time:eventTime});
+            }
+        });
+    }
+
+    // 🔥 협곡 (4주 간격)
+    const canyonStart = new Date("2026-05-15");
+
+    for(let i=0;i<5;i++){
+        let d = new Date(canyonStart);
+        d.setDate(d.getDate() + i*28);
+
+        ["10:00","21:00","23:00"].forEach(t=>{
+            let [h,m] = t.split(":");
+            let eventTime = new Date(d);
+            eventTime.setHours(h,m,0);
+
+            if(eventTime > now){
+                events.push({name:"🏞️ 협곡", time:eventTime});
+            }
+        });
+    }
+
+    events.sort((a,b)=>a.time-b.time);
+
+    return events[0];
+}
+
+function updateEvent() {
+    const e = getNextEvent();
+    if(!e) return;
+
+    const now = new Date();
+    const diff = e.time - now;
+
+    const hours = Math.floor(diff/1000/60/60);
+    const minutes = Math.floor((diff/1000/60)%60);
+
+    document.getElementById("eventText").innerHTML =
+        `${e.name}<br>
+         ${e.time.toLocaleString()}<br>
+         ⏳ ${hours}시간 ${minutes}분 남음`;
+}
+
+setInterval(updateEvent, 1000);
+updateEvent();
 </script>
 
 </body>
