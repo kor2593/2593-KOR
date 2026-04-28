@@ -650,114 +650,111 @@ window.onclick = function(e) {
 }
 
 
-// 🎮 게임 변수
-let score = 0;
-let time = 10;
-let gameInterval;
-let timerInterval;
+window.addEventListener("load", function(){
 
-// 🎮 팝업 열기
-function openGame(){
-  document.getElementById("gameModal").style.display = "flex";
-  startGame();
-}
+  let score = 0;
+  let time = 10;
+  let gameInterval;
+  let timerInterval;
 
-// 🎮 팝업 닫기
-function closeGame(){
-  document.getElementById("gameModal").style.display = "none";
-  clearInterval(gameInterval);
-  clearInterval(timerInterval);
-}
+  window.openGame = function(){
+    document.getElementById("gameModal").style.display = "flex";
+    startGame();
+  }
 
-// 🎮 게임 시작
-function startGame(){
-  score = 0;
-  time = 10;
+  window.closeGame = function(){
+    document.getElementById("gameModal").style.display = "none";
+    clearInterval(gameInterval);
+    clearInterval(timerInterval);
+  }
 
-  document.getElementById("score").innerText = score;
-  document.getElementById("time").innerText = time;
+  function startGame(){
+    score = 0;
+    time = 10;
 
-  let best = localStorage.getItem("bestScore") || 0;
-  document.getElementById("best").innerText = best;
-
-  moveBear();
-  gameInterval = setInterval(moveBear, 800);
-
-  timerInterval = setInterval(()=>{
-    time--;
+    document.getElementById("score").innerText = score;
     document.getElementById("time").innerText = time;
 
-    if(time <= 0){
-      endGame();
-    }
-  },1000);
-}
+    let best = localStorage.getItem("bestScore") || 0;
+    document.getElementById("best").innerText = best;
 
-// 🐻 곰 이동
-function moveBear(){
-  let bear = document.getElementById("bear");
-  let area = document.getElementById("gameArea");
+    moveBear();
+    gameInterval = setInterval(moveBear, 800);
 
-  let x = Math.random() * (area.clientWidth - 40);
-  let y = Math.random() * (area.clientHeight - 40);
+    timerInterval = setInterval(()=>{
+      time--;
+      document.getElementById("time").innerText = time;
 
-  bear.style.left = x + "px";
-  bear.style.top = y + "px";
+      if(time <= 0){
+        endGame();
+      }
+    },1000);
+  }
 
-  clearInterval(gameInterval);
-  let speed = Math.max(300, 800 - score * 30);
-  gameInterval = setInterval(moveBear, speed);
-}
+  function moveBear(){
+    let bear = document.getElementById("bear");
+    let area = document.getElementById("gameArea");
 
-// 🎯 곰 클릭 (좌표 수정 완료)
-document.getElementById("bear").onclick = function(e){
-  e.stopPropagation(); // ⭐ 이벤트 충돌 방지
+    let x = Math.random() * (area.clientWidth - 40);
+    let y = Math.random() * (area.clientHeight - 40);
 
-  score++;
-  document.getElementById("score").innerText = score;
+    bear.style.left = x + "px";
+    bear.style.top = y + "px";
 
-  let rect = document.getElementById("gameArea").getBoundingClientRect();
-  let x = e.clientX - rect.left;
-  let y = e.clientY - rect.top;
+    clearInterval(gameInterval);
+    let speed = Math.max(300, 800 - score * 30);
+    gameInterval = setInterval(moveBear, speed);
+  }
 
-  let effect = document.getElementById("effect");
-  effect.style.left = x + "px";
-  effect.style.top = y + "px";
-  effect.style.display = "block";
+  document.getElementById("bear").onclick = function(e){
+    e.stopPropagation();
 
-  setTimeout(()=> effect.style.display = "none", 200);
-}
-
-// ❌ MISS 처리 (좌표 수정 완료)
-document.getElementById("gameArea").onclick = function(e){
-  if(e.target.id !== "bear"){
+    score++;
+    document.getElementById("score").innerText = score;
 
     let rect = document.getElementById("gameArea").getBoundingClientRect();
     let x = e.clientX - rect.left;
     let y = e.clientY - rect.top;
 
-    let miss = document.getElementById("miss");
-    miss.style.left = x + "px";
-    miss.style.top = y + "px";
-    miss.style.display = "block";
+    let effect = document.getElementById("effect");
+    effect.style.left = x + "px";
+    effect.style.top = y + "px";
+    effect.style.display = "block";
 
-    setTimeout(()=> miss.style.display = "none", 200);
-  }
-}
-
-// 🎮 게임 종료
-function endGame(){
-  clearInterval(gameInterval);
-  clearInterval(timerInterval);
-
-  let best = localStorage.getItem("bestScore") || 0;
-  if(score > best){
-    localStorage.setItem("bestScore", score);
+    setTimeout(()=> effect.style.display = "none", 200);
   }
 
-  alert("🎮 점수: " + score);
-  closeGame();
-}
+  document.getElementById("gameArea").onclick = function(e){
+    if(e.target.id !== "bear"){
+
+      let rect = document.getElementById("gameArea").getBoundingClientRect();
+      let x = e.clientX - rect.left;
+      let y = e.clientY - rect.top;
+
+      let miss = document.getElementById("miss");
+      miss.style.left = x + "px";
+      miss.style.top = y + "px";
+      miss.style.display = "block";
+
+      setTimeout(()=> miss.style.display = "none", 200);
+    }
+  }
+
+  function endGame(){
+    clearInterval(gameInterval);
+    clearInterval(timerInterval);
+
+    let best = localStorage.getItem("bestScore") || 0;
+    if(score > best){
+      localStorage.setItem("bestScore", score);
+    }
+
+    alert("🎮 점수: " + score);
+    closeGame();
+  }
+
+});
+
 </script>
 
 </body>
