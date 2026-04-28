@@ -468,6 +468,7 @@ WELCOME TO<br>
   <span class="close" onclick="closeSchedule()">✕</span>
   <img src="schedule.jpg" alt="일정표">
 </div>
+
 <a class="btn" onclick="openGame()">🎮 미니 게임</a>
 <div id="gameModal" class="modal">
 
@@ -649,34 +650,94 @@ window.onclick = function(e) {
 }
 
 let score = 0;
+let time = 10;
 let gameInterval;
+let timerInterval;
+
+function openGame(){
+  document.getElementById("gameModal").style.display = "flex";
+  startGame();
+}
+
+function closeGame(){
+  document.getElementById("gameModal").style.display = "none";
+  clearInterval(gameInterval);
+  clearInterval(timerInterval);
+}
 
 function startGame(){
-  document.getElementById("gameBox").style.display = "block";
   score = 0;
+  time = 10;
+
   document.getElementById("score").innerText = score;
+  document.getElementById("time").innerText = time;
+
+  let best = localStorage.getItem("bestScore") || 0;
+  document.getElementById("best").innerText = best;
 
   moveBear();
   gameInterval = setInterval(moveBear, 800);
+
+  timerInterval = setInterval(()=>{
+    time--;
+    document.getElementById("time").innerText = time;
+
+    if(time <= 0){
+      endGame();
+    }
+  },1000);
 }
 
 function moveBear(){
   let bear = document.getElementById("bear");
-  let x = Math.random() * 200 - 100;
-  let y = Math.random() * 200 - 100;
-  bear.style.transform = `translate(${x}px, ${y}px)`;
+  let area = document.getElementById("gameArea");
+
+  let x = Math.random() * (area.clientWidth - 40);
+  let y = Math.random() * (area.clientHeight - 40);
+
+  bear.style.left = x + "px";
+  bear.style.top = y + "px";
+
+  clearInterval(gameInterval);
+  let speed = Math.max(300, 800 - score * 30);
+  gameInterval = setInterval(moveBear, speed);
 }
 
-document.getElementById("bear").onclick = function(){
+document.getElementById("bear").onclick = function(e){
   score++;
   document.getElementById("score").innerText = score;
+
+  let effect = document.getElementById("effect");
+  effect.style.left = e.offsetX + "px";
+  effect.style.top = e.offsetY + "px";
+  effect.style.display = "block";
+
+  setTimeout(()=> effect.style.display = "none", 200);
+}
+
+document.getElementById("gameArea").onclick = function(e){
+  if(e.target.id !== "bear"){
+    let miss = document.getElementById("miss");
+    miss.style.left = e.offsetX + "px";
+    miss.style.top = e.offsetY + "px";
+    miss.style.display = "block";
+
+    setTimeout(()=> miss.style.display = "none", 200);
+  }
 }
 
 function endGame(){
   clearInterval(gameInterval);
-  document.getElementById("gameBox").style.display = "none";
-}
+  clearInterval(timerInterval);
 
+  let best = localStorage.getItem("bestScore") || 0;
+  if(score > best){
+    localStorage.setItem("bestScore", score);
+  }
+
+  alert("🎮 점수: " + score);
+  closeGame();
+}
 </script>
 
 </body>
