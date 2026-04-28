@@ -212,6 +212,8 @@ h1 {
 }
 
 .game-card {
+    position: relative; /* ⭐ 이거 유지 */
+
     background: linear-gradient(145deg, #1e293b, #020617);
     border: 1px solid rgba(59,130,246,0.5);
     box-shadow: 0 0 30px rgba(59,130,246,0.6);
@@ -345,60 +347,51 @@ WELCOME TO<br>
     <a class="btn main-btn" onclick="openTab('infoCard', this)">📖 서버 설명</a>
 <a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 문의하기</a>
 
-<div style="margin:15px;">
-  <div class="card-title">📋 FAQ</div>
+<a class="btn" onclick="openFAQ()">📋 FAQ</a>
 
-  <div class="faq-item" onclick="toggleFAQ(this)">
-    <div class="faq-q">❓ 서버 구조는 어떻게 되어있나요?</div>
-    <div class="faq-a">
-      👉 KOR / TEM / ROK (한국)<br>
-      👉 PHX / TUR (외국 연맹)
-    </div>
-  </div>
+<div id="faqPopup" class="popup">
 
-  <div class="faq-item" onclick="toggleFAQ(this)">
-    <div class="faq-q">❓ SvS 운영 방식은 어떻게 되나요?</div>
-    <div class="faq-a">
-      👉 KOR 중심 + 서버 연합 체제 운영<br>
-      👉 안정적인 협력 기반 운영
-    </div>
-  </div>
+  <div class="game-card">
+    <div class="close" onclick="closeFAQ()">✕</div>
 
-  <div class="faq-item" onclick="toggleFAQ(this)">
-    <div class="faq-q">❓ 준비전 및 이벤트는 어떻게 진행되나요?</div>
-    <div class="faq-a">
-      👉 차등 보상 구조로 자연 경쟁 유도<br>
-      👉 서버 목표 = 준비전 승리
-    </div>
-  </div>
+    <div class="card-title">📋 FAQ</div>
 
-  <div class="faq-item" onclick="toggleFAQ(this)">
-    <div class="faq-q">❓ 주요 콘텐츠 진행 방식은?</div>
-    <div class="faq-a">
-      👉 서리병기 : 서버 연합 참전 (디코 사용)
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 서버 구조</div>
+      <div class="faq-a">KOR / TEM / ROK / PHX / TUR</div>
     </div>
-  </div>
 
-  <div class="faq-item" onclick="toggleFAQ(this)">
-    <div class="faq-q">❓ 서버 분위기는 어떤가요?</div>
-    <div class="faq-a">
-      👉 협력 + 경쟁 균형형<br>
-      👉 안정적 / 단합 우수<br>
-      👉 정착률 높은 서버
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ SvS 운영</div>
+      <div class="faq-a">KOR 중심 + 서버 연합 운영</div>
     </div>
-  </div>
 
-  <div class="faq-item" onclick="toggleFAQ(this)">
-    <div class="faq-q">❓ 이민 및 초대권 배분은?</div>
-    <div class="faq-a">
-      👉 이민 확정자 우선 배분<br>
-      👉 특초 : 지심 기준 충족 시 가능<br><br>
-      👉 *상세 기준은 문의 안내*
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 준비전</div>
+      <div class="faq-a">차등 보상 → 준비전 승리 목표</div>
     </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 콘텐츠</div>
+      <div class="faq-a">서리병기 : 연합 + 디코</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 분위기</div>
+      <div class="faq-a">협력 + 경쟁 균형 / 정착률 높음</div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 이민/초대권</div>
+      <div class="faq-a">
+        확정자 우선 / 특초 조건 있음<br>
+        ※ 상세 기준은 문의
+      </div>
+    </div>
+
   </div>
 
 </div>
-
 <a class="btn" onclick="openSchedule()">🚀 서버 일정표</a>
 
 <div id="schedulePopup" class="popup">
@@ -543,6 +536,14 @@ function updateEvent() {
 
 setInterval(updateEvent, 1000);
 updateEvent();
+
+function openFAQ(){
+    document.getElementById("faqPopup").style.display = "flex";
+}
+
+function closeFAQ(){
+    document.getElementById("faqPopup").style.display = "none";
+}
 
 function toggleFAQ(el){
     el.classList.toggle("active");
