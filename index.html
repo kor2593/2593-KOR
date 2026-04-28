@@ -291,6 +291,17 @@ WELCOME TO<br>
 <div id="schedulePopup" class="popup">
   <span class="close" onclick="closeSchedule()">✕</span>
   <img src="schedule.jpg" alt="일정표">
+<div style="margin:15px;">
+  <div class="card-title">💬 방명록</div>
+
+  <input id="name" placeholder="닉네임" style="width:90%; padding:10px; margin:5px;">
+  <input id="message" placeholder="한마디 남겨주세요" style="width:90%; padding:10px; margin:5px;">
+
+  <button class="btn" onclick="addMessage()">작성</button>
+
+  <div id="guestList"></div>
+</div>
+
 </div>
     <!--이벤트시간 -->
     <div id="eventBox" style="margin:15px;">
@@ -429,6 +440,22 @@ function updateEvent() {
 
 setInterval(updateEvent, 1000);
 updateEvent();
+
+function addMessage(){
+    let name = document.getElementById("name").value;
+    let msg = document.getElementById("message").value;
+
+    if(!name || !msg) return;
+
+    let box = document.createElement("div");
+    box.className = "chat";
+    box.innerHTML = `🧑 ${name} : ${msg}`;
+
+    document.getElementById("guestList").prepend(box);
+
+    document.getElementById("name").value = "";
+    document.getElementById("message").value = "";
+}
 </script>
 
 </body>
