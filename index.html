@@ -210,6 +210,33 @@ h1 {
     color: white;
     cursor: pointer;
 }
+
+.game-card {
+    background: linear-gradient(145deg, #1e293b, #020617);
+    border: 1px solid rgba(59,130,246,0.5);
+    box-shadow: 0 0 30px rgba(59,130,246,0.6);
+    padding: 20px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: pop 0.3s ease;
+}
+
+.game-card input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: none;
+    background: #0f172a;
+    color: white;
+}
+
+@keyframes pop {
+    from {transform: scale(0.8); opacity:0;}
+    to {transform: scale(1); opacity:1;}
+}
 </style>
 </head>
 
@@ -310,7 +337,6 @@ WELCOME TO<br>
 
 </div>
 
-</div>
     <!--이벤트시간 -->
     <div id="eventBox" style="margin:15px;">
   <div class="card-title">🚀 NEXT EVENT</div>
