@@ -649,22 +649,27 @@ window.onclick = function(e) {
   if (e.target === schedule) schedule.style.display = "none";
 }
 
+
+// 🎮 게임 변수
 let score = 0;
 let time = 10;
 let gameInterval;
 let timerInterval;
 
+// 🎮 팝업 열기
 function openGame(){
   document.getElementById("gameModal").style.display = "flex";
   startGame();
 }
 
+// 🎮 팝업 닫기
 function closeGame(){
   document.getElementById("gameModal").style.display = "none";
   clearInterval(gameInterval);
   clearInterval(timerInterval);
 }
 
+// 🎮 게임 시작
 function startGame(){
   score = 0;
   time = 10;
@@ -688,6 +693,7 @@ function startGame(){
   },1000);
 }
 
+// 🐻 곰 이동
 function moveBear(){
   let bear = document.getElementById("bear");
   let area = document.getElementById("gameArea");
@@ -703,29 +709,43 @@ function moveBear(){
   gameInterval = setInterval(moveBear, speed);
 }
 
+// 🎯 곰 클릭 (좌표 수정 완료)
 document.getElementById("bear").onclick = function(e){
+  e.stopPropagation(); // ⭐ 이벤트 충돌 방지
+
   score++;
   document.getElementById("score").innerText = score;
 
+  let rect = document.getElementById("gameArea").getBoundingClientRect();
+  let x = e.clientX - rect.left;
+  let y = e.clientY - rect.top;
+
   let effect = document.getElementById("effect");
-  effect.style.left = e.offsetX + "px";
-  effect.style.top = e.offsetY + "px";
+  effect.style.left = x + "px";
+  effect.style.top = y + "px";
   effect.style.display = "block";
 
   setTimeout(()=> effect.style.display = "none", 200);
 }
 
+// ❌ MISS 처리 (좌표 수정 완료)
 document.getElementById("gameArea").onclick = function(e){
   if(e.target.id !== "bear"){
+
+    let rect = document.getElementById("gameArea").getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+
     let miss = document.getElementById("miss");
-    miss.style.left = e.offsetX + "px";
-    miss.style.top = e.offsetY + "px";
+    miss.style.left = x + "px";
+    miss.style.top = y + "px";
     miss.style.display = "block";
 
     setTimeout(()=> miss.style.display = "none", 200);
   }
 }
 
+// 🎮 게임 종료
 function endGame(){
   clearInterval(gameInterval);
   clearInterval(timerInterval);
