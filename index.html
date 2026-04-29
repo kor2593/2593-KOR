@@ -15,6 +15,7 @@
 <meta property="og:type" content="website">
 
 <title>WELCOME TO 2593</title>
+
 <style>
 body {
     margin: 0;
@@ -182,21 +183,51 @@ h1 {
     color: #64748b;
 }
 
-/* 카드 */
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
 .game-card {
+    position: relative;
+
     background: linear-gradient(145deg, #1e293b, #020617);
     border: 1px solid rgba(59,130,246,0.5);
     box-shadow: 0 0 30px rgba(59,130,246,0.6);
+
     padding: 20px;
     border-radius: 20px;
     width: 90%;
     max-width: 400px;
+
     text-align: center;
     animation: pop 0.3s ease;
+
     max-height: 80vh;
     overflow-y: auto;
 }
-
 .game-card input {
     width: 90%;
     padding: 10px;
@@ -206,13 +237,14 @@ h1 {
     background: #0f172a;
     color: white;
 }
+.popup {
+    overflow-y: auto; /* ⭐ 이거 추가 */
+}
 
 @keyframes pop {
     from {transform: scale(0.8); opacity:0;}
     to {transform: scale(1); opacity:1;}
 }
-
-/* FAQ */
 .faq-item {
     background: linear-gradient(145deg, #1e293b, #020617);
     margin: 10px 0;
@@ -221,12 +253,23 @@ h1 {
     border: 1px solid rgba(59,130,246,0.3);
     box-shadow: 0 0 10px rgba(59,130,246,0.2);
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.faq-item:active {
+    transform: scale(0.98);
+}
+
+.faq-q {
+    font-family: 'Orbitron';
+    font-size: 15px;
 }
 
 .faq-a {
     max-height: 0;
     overflow: hidden;
     font-size: 14px;
+    margin-top: 10px;
     color: #94a3b8;
     transition: max-height 0.3s ease;
 }
@@ -234,8 +277,26 @@ h1 {
 .faq-item.active .faq-a {
     max-height: 200px;
 }
+/* 팝업 */
+.modal {
+    display: none;   /* ⭐ 이것만 남겨 */
+    position: fixed;
+    top: 0;
+    left: 0;
 
-/* 게임 */
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.85);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+/* 게임 영역 */
+
 #gameArea {
     position: relative;
     height: 360px;
@@ -251,64 +312,26 @@ h1 {
     cursor: pointer;
 }
 
-/* 모달 */
-.modal {
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+.modal-content {
+    background: #020617;
+    padding: 20px;
+    border-radius: 20px;
+    width: 95%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(59,130,246,0.5);
 }
 
-/* 🔥 팝업 (최종 통합 버전) */
-.popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.9);
-    display: none;
-    z-index: 9999;
-}
-
-.img-container {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.popup img {
-    max-width: none;
-    cursor: grab;
-    transition: transform 0.2s;
-}
-
-.close {
+#effect {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
+    display: none;
+    font-size: 30px;
 }
 
-.zoom-controls {
+#miss {
     position: absolute;
-    top: 20px;
-    left: 20px;
-}
-
-.zoom-controls button {
-    margin: 5px;
-    padding: 8px 12px;
-    font-size: 16px;
+    display: none;
+    color: red;
 }
 </style>
 </head>
@@ -447,21 +470,10 @@ WELCOME TO<br>
   </div>
 
 </div>
-
 <a class="btn" onclick="openSchedule()">🚀 서버 일정표</a>
-
 <div id="schedulePopup" class="popup">
   <span class="close" onclick="closeSchedule()">✕</span>
-
-  <div class="zoom-controls">
-    <button onclick="zoomIn()">＋</button>
-    <button onclick="zoomOut()">－</button>
-    <button onclick="resetZoom()">RESET</button>
-  </div>
-
-  <div class="img-container">
-    <img id="scheduleImg" src="schedule.jpg">
-  </div>
+  <img src="schedule.jpg" alt="일정표">
 </div>
 
 <a class="btn" onclick="openGame()">🎮 미니 게임</a>
@@ -947,64 +959,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
-let scale = 1;
-let posX = 0;
-let posY = 0;
-let isDragging = false;
-let startX, startY;
-
-const img = document.getElementById("scheduleImg");
-
-function openSchedule(){
-  document.getElementById("schedulePopup").style.display = "block";
-}
-
-function closeSchedule(){
-  document.getElementById("schedulePopup").style.display = "none";
-  resetZoom();
-}
-
-function zoomIn(){
-  scale += 0.2;
-  updateTransform();
-}
-
-function zoomOut(){
-  scale -= 0.2;
-  if(scale < 1) scale = 1;
-  updateTransform();
-}
-
-function resetZoom(){
-  scale = 1;
-  posX = 0;
-  posY = 0;
-  updateTransform();
-}
-
-function updateTransform(){
-  img.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
-}
-
-// 드래그 이동
-img.addEventListener("mousedown", (e)=>{
-  isDragging = true;
-  startX = e.clientX - posX;
-  startY = e.clientY - posY;
-  img.style.cursor = "grabbing";
-});
-
-document.addEventListener("mousemove", (e)=>{
-  if(!isDragging) return;
-  posX = e.clientX - startX;
-  posY = e.clientY - startY;
-  updateTransform();
-});
-
-document.addEventListener("mouseup", ()=>{
-  isDragging = false;
-  img.style.cursor = "grab";
-});
 </script>
 
 </body>
