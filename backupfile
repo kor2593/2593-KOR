@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🔥 카톡 썸네일 설정 -->
+<meta property="og:title" content="2593 ALLIANCE">
+<meta property="og:description" content="ONE TEAM 기반 SVS 중심 단합 서버">
+<meta property="og:image" content="https://kor2593.github.io/2593-KOR/preview.png">
+<meta property="og:url" content="https://kor2593.github.io/2593-KOR/">
+<meta property="og:type" content="website">
+
+<title>WELCOME TO 2593</title>
+
+<style>
+body {
+    margin: 0;
+    background: #020617;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* UTC */
+.utc {
+    font-size: 12px;
+    color: #94a3b8;
+    opacity: 0.7;
+}
+
+/* 배경 */
+.bg-animation {
+    position: fixed;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(59,130,246,0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    animation: moveBg 20s linear infinite;
+    z-index: -2;
+}
+
+.snow {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    background-image:
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(white 1px, transparent 1px),
+        radial-gradient(white 2px, transparent 2px);
+    background-size: 50px 50px, 100px 100px, 150px 150px;
+    animation: snowFall 15s linear infinite;
+}
+
+@keyframes moveBg {
+    to { transform: translate(-200px,-200px); }
+}
+
+@keyframes snowFall {
+    to { background-position: 0 500px, 0 300px, 0 700px; }
+}
+
+/* 제목 */
+h1 {
+    font-family: 'Orbitron';
+    margin-top: 50px;
+    font-size: 34px;
+    text-shadow: 0 0 10px #3b82f6;
+    animation: fadeUp 1s ease;
+}
+
+.subtitle {
+    color: #94a3b8;
+    animation: fadeUp 1.5s ease;
+}
+
+@keyframes fadeUp {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* 탭 */
+.tabs {
+    display: flex;
+    margin: 30px 10px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 15px;
+    font-family: 'Orbitron';
+    background: #1e293b;
+    border: none;
+    color: white;
+}
+
+.tab-btn.active {
+    background: #2563eb;
+    box-shadow: 0 0 10px #3b82f6;
+}
+
+/* 콘텐츠 */
+.tab-content {
+    display: none;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #1e293b, #020617);
+    text-align: left;
+    animation: fadeUp 0.5s ease;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.card-title {
+    text-align: center;
+    font-family: 'Orbitron';
+    color: #60a5fa;
+}
+
+.card-sub {
+    font-weight: bold;
+    color: #3b82f6;
+}
+
+/* 버튼 */
+.btn {
+    display: block;
+    margin: 15px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #1e293b;
+    color: white;
+    text-decoration: none;
+    font-family: 'Orbitron';
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: 0.6s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.main-btn {
+    background: #2563eb;
+    box-shadow: 0 0 15px #3b82f6;
+}
+
+/* 후기 */
+.chat {
+    background: rgba(255,255,255,0.05);
+    padding: 8px;
+    border-radius: 10px;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.footer {
+    margin-top: 40px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 10px;
+}
+
+.close {
+    position: absolute;
+    top: 30px;
+    right: 20px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}
+.game-card {
+    position: relative;
+
+    background: linear-gradient(145deg, #1e293b, #020617);
+    border: 1px solid rgba(59,130,246,0.5);
+    box-shadow: 0 0 30px rgba(59,130,246,0.6);
+
+    padding: 20px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+
+    text-align: center;
+    animation: pop 0.3s ease;
+
+    max-height: 80vh;
+    overflow-y: auto;
+}
+.game-card input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: none;
+    background: #0f172a;
+    color: white;
+}
+.popup {
+    overflow-y: auto; /* ⭐ 이거 추가 */
+}
+
+@keyframes pop {
+    from {transform: scale(0.8); opacity:0;}
+    to {transform: scale(1); opacity:1;}
+}
+.faq-item {
+    background: linear-gradient(145deg, #1e293b, #020617);
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid rgba(59,130,246,0.3);
+    box-shadow: 0 0 10px rgba(59,130,246,0.2);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.faq-item:active {
+    transform: scale(0.98);
+}
+
+.faq-q {
+    font-family: 'Orbitron';
+    font-size: 15px;
+}
+
+.faq-a {
+    max-height: 0;
+    overflow: hidden;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #94a3b8;
+    transition: max-height 0.3s ease;
+}
+
+.faq-item.active .faq-a {
+    max-height: 200px;
+}
+/* 팝업 */
+.modal {
+    display: none;   /* ⭐ 이것만 남겨 */
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.85);
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+/* 게임 영역 */
+
+#gameArea {
+    position: relative;
+    height: 360px;
+    border: 1px solid #444;
+    margin: 20px 0;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+#bear {
+    position: absolute;
+    font-size: 60px;
+    cursor: pointer;
+}
+
+.modal-content {
+    background: #020617;
+    padding: 20px;
+    border-radius: 20px;
+    width: 95%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(59,130,246,0.5);
+}
+
+#effect {
+    position: absolute;
+    display: none;
+    font-size: 30px;
+}
+
+#miss {
+    position: absolute;
+    display: none;
+    color: red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-animation"></div>
+<div class="snow"></div>
+
+<h1>
+WELCOME TO<br>
+2593
+</h1>
+
+<div class="subtitle">White Out Survival</div>
+
+<div class="tabs">
+    <button class="tab-btn active" onclick="openTab('kor', this)">🛡 KOR</button>
+    <button class="tab-btn" onclick="openTab('tem', this)">🔥 TEM</button>
+</div>
+
+<!-- KOR -->
+<div id="kor" class="tab-content active">
+    <div class="card-title">🛡 KOR ALLIANCE</div>
+
+    <div class="card-sub">⚔️ 곰 사냥</div>
+    1차 : KST 21:00 <span class="utc">(UTC 12:00)</span><br>
+    2차 : KST 22:20 <span class="utc">(UTC 13:20)</span><br><br>
+
+    🧟 미치광이 조이 & 용병 보스<br>
+    └ KST 22:00<br><br>
+
+    🏭 무기 공장<br>
+    └ KST 21:00 / 23:00<br><br>
+
+    🏞️ 협곡<br>
+    └ KST 11:00 / 23:00
+</div>
+
+<!-- TEM -->
+<div id="tem" class="tab-content">
+    <div class="card-title">🔥 TEM ALLIANCE</div>
+
+    <div class="card-sub">⚔️ 곰 사냥</div>
+    1차 : KST 22:00 <span class="utc">(UTC 13:00)</span><br>
+    2차 : KST 08:00 <span class="utc">(UTC 23:00)</span><br><br>
+
+    🧟 미치광이 조이 & 용병 보스<br>
+    └ KST 21:00<br><br>
+
+    🏭 무기 공장<br>
+    └ KST 21:00 / 23:00<br><br>
+
+    🏞️ 협곡<br>
+    └ KST 21:00 / 23:00<br><br>
+
+    <div class="card-sub">💬 TEM 분위기 어때?</div>
+    <div class="chat">🧑 라짱 : 전투 진심! 단결력 최고! </div>
+    <div class="chat">🧑 덕덕 : 부담 없이 즐겨서 좋아</div>
+    <div class="chat">🧑 언즈 : 왜케 웃곀 ㅋㅋ</div>
+</div>
+
+<!-- 서버 설명 -->
+<div id="infoCard" class="tab-content">
+    <div class="card-title">📖 SERVER INFO</div>
+    🌍 ONE TEAM 기반 SVS 서버<br><br>
+    ⚔️ 준비전 + SVS = 서버 축제 <br><br>
+    🤝 PHX / TUR / KOR / TEM / ROK <br><br>
+    🔥 SVS 경쟁력 확보<br><br>
+    🏆 서리병기 7위 → 다음 4강 목표<br><br>
+    🇰🇷 한국 유저 많음 / 적응 쉬움
+</div>
+
+<!-- 버튼 -->
+    <a class="btn main-btn" onclick="openTab('infoCard', this)">📖 서버 설명</a>
+<a class="btn" href="https://open.kakao.com/o/sbU2bgbi">💬 이민 문의</a>
+
+<a class="btn" onclick="openFAQ()">📋 FAQ</a>
+
+<div id="faqPopup" class="popup">
+
+  <div class="game-card">
+    <div class="close" onclick="closeFAQ()">✕</div>
+
+    <div class="card-title">📋 FAQ</div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 서버 구조는 어떻게 되어있나요?</div>
+      <div class="faq-a">
+        👉 KOR / TEM / ROK (한국)<br>
+        👉 PHX / TUR (외국 연맹)
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ SvS 운영 방식은 어떻게 되나요?</div>
+      <div class="faq-a">
+        👉 KOR 중심 + 서버 연합 운영<br>
+        👉 협력 기반으로 안정적으로 진행
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 준비전 및 이벤트는 어떻게 진행되나요?</div>
+      <div class="faq-a">
+        👉 연맹별 차등 보상 구조<br>
+        👉 서버 공동 목표 = 준비전 승리
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 주요 콘텐츠 진행 방식은?</div>
+      <div class="faq-a">
+        👉 서리병기 : 서버 연합 참여 (디코 사용)
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 서버 분위기는 어떤가요?</div>
+      <div class="faq-a">
+        👉 협력 + 경쟁 균형형 서버<br>
+        👉 안정적이고 단합력 높음<br>
+        👉 이민 후 정착률 높은 편
+      </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+      <div class="faq-q">❓ 이민 및 초대권은 어떻게 되나요?</div>
+      <div class="faq-a">
+        👉 확정자 우선 진행<br>
+        👉 특초는 지심 기준 충족 필요<br>
+        ※ 상세 기준은 문의
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<a class="btn" onclick="openSchedule()">🚀 서버 일정표</a>
+<div id="schedulePopup" class="popup">
+  <span class="close" onclick="closeSchedule()">✕</span>
+  <img src="schedule.jpg" alt="일정표">
+</div>
+
+<a class="btn" onclick="openGame()">🎮 미니 게임</a>
+
+<div id="gameModal" class="modal">
+
+  <div class="modal-content">
+
+    <h2>🐻 곰 사냥!</h2>
+<p>⏱ <span id="time">60</span>초</p>
+<p>🎯 <span id="score">0</span>점</p>
+<p>🔥 콤보 <span id="combo">0</span></p>
+<p>🏆 최고 <span id="best">0</span></p>
+<p>🔥 최대콤보 <span id="maxCombo">0</span></p>
+
+    <div id="gameArea">
+      <div id="bear">🐻</div>
+      <div id="effect">💥</div>
+      <div id="miss">MISS</div>
+    </div>
+
+    <button onclick="closeGame()">종료</button>
+
+  </div>
+
+</div>
+
+    <!--이벤트시간 -->
+    <div id="eventBox" style="margin:15px;">
+  <div class="card-title">🚀 NEXT EVENT</div>
+  <div id="eventText" style="text-align:center; font-size:18px;"></div>
+    </div>
+<div class="footer">© KOR Alliance Made by 언즈 </div>
+
+<script>
+function openTab(tabName, el) {
+    let content = document.getElementsByClassName("tab-content");
+    let buttons = document.getElementsByClassName("tab-btn");
+
+    for (let i=0;i<content.length;i++){
+        content[i].classList.remove("active");
+    }
+
+    for (let i=0;i<buttons.length;i++){
+        buttons[i].classList.remove("active");
+    }
+
+    document.getElementById(tabName).classList.add("active");
+
+    if(el){
+        el.classList.add("active");
+    }
+}
+
+function openSchedule(){
+    document.getElementById("schedulePopup").style.display = "flex";
+}
+
+function closeSchedule(){
+    document.getElementById("schedulePopup").style.display = "none";
+}
+    
+function getNextEvent() {
+    const now = new Date();
+    const events = [];
+
+    // 🔥 곰 (2일 간격)
+    const bearTimes = ["21:00", "22:20"];
+    const bearStart = new Date("2026-04-28");
+
+    for(let i=0;i<10;i++){
+        let d = new Date(bearStart);
+        d.setDate(d.getDate() + i*2);
+
+        bearTimes.forEach(t=>{
+            let [h,m] = t.split(":");
+            let eventTime = new Date(d);
+            eventTime.setHours(h,m,0);
+
+            if(eventTime > now){
+                events.push({name:"🐻 곰 사냥", time:eventTime});
+            }
+        });
+    }
+
+    // 🔥 무기공장 (2주 간격 / 일요일 시작)
+    const factoryStart = new Date("2026-05-03"); // 이번주 일요일 기준
+
+    for(let i=0;i<5;i++){
+        let d = new Date(factoryStart);
+        d.setDate(d.getDate() + i*14);
+
+        ["21:00","23:00"].forEach(t=>{
+            let [h,m] = t.split(":");
+            let eventTime = new Date(d);
+            eventTime.setHours(h,m,0);
+
+            if(eventTime > now){
+                events.push({name:"🏭 무기 공장", time:eventTime});
+            }
+        });
+    }
+
+    // 🔥 조이 (화/목 2주 간격)
+    const joyStart = new Date("2026-05-05"); // 다음주 화요일 기준
+
+    for(let i=0;i<5;i++){
+        let d = new Date(joyStart);
+        d.setDate(d.getDate() + i*14);
+
+        ["0","2"].forEach(dayOffset=>{
+            let day = new Date(d);
+            day.setDate(day.getDate() + parseInt(dayOffset));
+
+            let eventTime = new Date(day);
+            eventTime.setHours(22,0,0);
+
+            if(eventTime > now){
+                events.push({name:"🧟 조이 & 용병 보스", time:eventTime});
+            }
+        });
+    }
+
+    // 🔥 협곡 (4주 간격)
+    const canyonStart = new Date("2026-05-15");
+
+    for(let i=0;i<5;i++){
+        let d = new Date(canyonStart);
+        d.setDate(d.getDate() + i*28);
+
+        ["10:00","21:00","23:00"].forEach(t=>{
+            let [h,m] = t.split(":");
+            let eventTime = new Date(d);
+            eventTime.setHours(h,m,0);
+
+            if(eventTime > now){
+                events.push({name:"🏞️ 협곡", time:eventTime});
+            }
+        });
+    }
+
+    events.sort((a,b)=>a.time-b.time);
+
+    return events[0];
+}
+
+function updateEvent() {
+    const e = getNextEvent();
+    if(!e) return;
+
+    const now = new Date();
+    const diff = e.time - now;
+
+    const hours = Math.floor(diff/1000/60/60);
+    const minutes = Math.floor((diff/1000/60)%60);
+
+    document.getElementById("eventText").innerHTML =
+        `${e.name}<br>
+         ${e.time.toLocaleString()}<br>
+         ⏳ ${hours}시간 ${minutes}분 남음`;
+}
+
+setInterval(updateEvent, 1000);
+updateEvent();
+
+function openFAQ(){
+    document.getElementById("faqPopup").style.display = "flex";
+}
+
+function closeFAQ(){
+    document.getElementById("faqPopup").style.display = "none";
+}
+
+function toggleFAQ(el){
+    el.classList.toggle("active");
+}
+
+window.onclick = function(e) {
+  let faq = document.getElementById("faqPopup");
+  let schedule = document.getElementById("schedulePopup");
+
+  if (e.target === faq) faq.style.display = "none";
+  if (e.target === schedule) schedule.style.display = "none";
+}
+
+function openTab(tabName, el) {
+    let content = document.getElementsByClassName("tab-content");
+    let buttons = document.getElementsByClassName("tab-btn");
+
+    for (let i=0;i<content.length;i++){
+        content[i].classList.remove("active");
+    }
+
+    for (let i=0;i<buttons.length;i++){
+        buttons[i].classList.remove("active");
+    }
+
+    document.getElementById(tabName).classList.add("active");
+
+    if(el){
+        el.classList.add("active");
+    }
+}
+
+function openSchedule(){
+    document.getElementById("schedulePopup").style.display = "flex";
+}
+
+function closeSchedule(){
+    document.getElementById("schedulePopup").style.display = "none";
+}
+
+function openFAQ(){
+    document.getElementById("faqPopup").style.display = "flex";
+}
+
+function closeFAQ(){
+    document.getElementById("faqPopup").style.display = "none";
+}
+
+function toggleFAQ(el){
+    el.classList.toggle("active");
+}
+
+window.onclick = function(e) {
+  let faq = document.getElementById("faqPopup");
+  let schedule = document.getElementById("schedulePopup");
+
+  if (e.target === faq) faq.style.display = "none";
+  if (e.target === schedule) schedule.style.display = "none";
+}
+
+// 🔥 이벤트 타이머
+function getNextEvent() {
+    const now = new Date();
+    const events = [];
+
+    const bearTimes = ["21:00", "22:20"];
+    const bearStart = new Date("2026-04-28");
+
+    for(let i=0;i<10;i++){
+        let d = new Date(bearStart);
+        d.setDate(d.getDate() + i*2);
+
+        bearTimes.forEach(t=>{
+            let [h,m] = t.split(":");
+            let eventTime = new Date(d);
+            eventTime.setHours(h,m,0);
+
+            if(eventTime > now){
+                events.push({name:"🐻 곰 사냥", time:eventTime});
+            }
+        });
+    }
+
+    events.sort((a,b)=>a.time-b.time);
+    return events[0];
+}
+
+function updateEvent() {
+    const e = getNextEvent();
+    if(!e) return;
+
+    const now = new Date();
+    const diff = e.time - now;
+
+    const hours = Math.floor(diff/1000/60/60);
+    const minutes = Math.floor((diff/1000/60)%60);
+
+    document.getElementById("eventText").innerHTML =
+        `${e.name}<br>${e.time.toLocaleString()}<br>⏳ ${hours}시간 ${minutes}분 남음`;
+}
+
+setInterval(updateEvent, 1000);
+updateEvent();
+
+
+// =====================
+// 🎮 미니게임
+// =====================
+
+function openTab(tabName, el) {
+    let content = document.getElementsByClassName("tab-content");
+    let buttons = document.getElementsByClassName("tab-btn");
+
+    for (let i=0;i<content.length;i++){
+        content[i].classList.remove("active");
+    }
+
+    for (let i=0;i<buttons.length;i++){
+        buttons[i].classList.remove("active");
+    }
+
+    document.getElementById(tabName).classList.add("active");
+
+    if(el){
+        el.classList.add("active");
+    }
+}
+
+function openSchedule(){
+    document.getElementById("schedulePopup").style.display = "flex";
+}
+
+function closeSchedule(){
+    document.getElementById("schedulePopup").style.display = "none";
+}
+
+function openFAQ(){
+    document.getElementById("faqPopup").style.display = "flex";
+}
+
+function closeFAQ(){
+    document.getElementById("faqPopup").style.display = "none";
+}
+
+function toggleFAQ(el){
+    el.classList.toggle("active");
+}
+
+window.onclick = function(e) {
+  let faq = document.getElementById("faqPopup");
+  let schedule = document.getElementById("schedulePopup");
+
+  if (e.target === faq) faq.style.display = "none";
+  if (e.target === schedule) schedule.style.display = "none";
+}
+
+
+// =====================
+// 🎮 미니게임
+// =====================
+document.addEventListener("DOMContentLoaded", function(){
+
+  let score = 0;
+  let combo = 0;
+  let maxCombo = 0;
+  let time = 30;
+
+  let gameInterval;
+  let timerInterval;
+
+  window.openGame = function(){
+    document.getElementById("gameModal").style.display = "flex";
+    startGame();
+  }
+
+  window.closeGame = function(){
+    document.getElementById("gameModal").style.display = "none";
+    clearInterval(gameInterval);
+    clearInterval(timerInterval);
+  }
+
+  function startGame(){
+    score = 0;
+    combo = 0;
+    maxCombo = 0;
+    time = 30;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("combo").innerText = combo;
+    document.getElementById("time").innerText = time;
+
+    // 👉 최대콤보 표시용 (HTML에 span 필요)
+    if(document.getElementById("maxCombo")){
+      document.getElementById("maxCombo").innerText = maxCombo;
+    }
+
+    let best = localStorage.getItem("bestScore") || 0;
+    document.getElementById("best").innerText = best;
+
+    moveBear();
+    gameInterval = setInterval(moveBear, 900); // 🔥 전체 속도 살짝 느림
+
+    timerInterval = setInterval(()=>{
+      time--;
+      document.getElementById("time").innerText = time;
+
+      if(time <= 0){
+        endGame();
+      }
+    },1000);
+  }
+
+  function moveBear(){
+    let bear = document.getElementById("bear");
+    let area = document.getElementById("gameArea");
+
+    let x = Math.random() * (area.clientWidth - 60);
+    let y = Math.random() * (area.clientHeight - 60);
+
+    bear.style.left = x + "px";
+    bear.style.top = y + "px";
+
+    clearInterval(gameInterval);
+
+    // 🔥 콤보 영향 속도 (완만하게 조정)
+    let speed = Math.max(350, 900 - combo * 25);
+
+    gameInterval = setInterval(moveBear, speed);
+  }
+
+  document.getElementById("bear").onclick = function(e){
+    e.stopPropagation();
+
+    combo++;
+
+    // 🔥 최대콤보 기록
+    if(combo > maxCombo){
+      maxCombo = combo;
+
+      if(document.getElementById("maxCombo")){
+        document.getElementById("maxCombo").innerText = maxCombo;
+      }
+    }
+
+    // 🔥 콤보 기반 점수 (강화됨)
+    score += 1 + combo;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("combo").innerText = combo;
+
+    // 💥 히트 효과
+    let rect = document.getElementById("gameArea").getBoundingClientRect();
+    let x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+
+    let effect = document.getElementById("effect");
+    effect.style.left = x + "px";
+    effect.style.top = y + "px";
+    effect.style.display = "block";
+
+    setTimeout(()=> effect.style.display = "none", 120);
+
+    // 🔥🔥 콤보 10 이상 효과
+    if(combo >= 10){
+
+      // 화면 흔들림
+      document.getElementById("gameArea").style.transform = "scale(1.03)";
+      setTimeout(()=>{
+        document.getElementById("gameArea").style.transform = "scale(1)";
+      },80);
+
+      // 화면 빛 효과
+      document.body.style.boxShadow = "0 0 60px #facc15 inset";
+      setTimeout(()=>{
+        document.body.style.boxShadow = "none";
+      },120);
+    }
+  }
+
+  document.getElementById("gameArea").onclick = function(e){
+    if(e.target.id !== "bear"){
+
+      combo = 0;
+      document.getElementById("combo").innerText = combo;
+
+      let rect = document.getElementById("gameArea").getBoundingClientRect();
+      let x = e.clientX - rect.left;
+      let y = e.clientY - rect.top;
+
+      let miss = document.getElementById("miss");
+      miss.style.left = x + "px";
+      miss.style.top = y + "px";
+      miss.style.display = "block";
+
+      setTimeout(()=> miss.style.display = "none", 120);
+    }
+  }
+
+  function endGame(){
+    clearInterval(gameInterval);
+    clearInterval(timerInterval);
+
+    let best = localStorage.getItem("bestScore") || 0;
+    if(score > best){
+      localStorage.setItem("bestScore", score);
+    }
+
+    alert("🎮 점수: " + score + " (최대 콤보🔥 " + maxCombo + ")");
+    closeGame();
+  }
+
+});
+
+</script>
+
+</body>
+</html>
