@@ -333,6 +333,53 @@ h1 {
     display: none;
     color: red;
 }
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  z-index: 9999;
+}
+
+.popup img {
+  max-width: none;
+  cursor: grab;
+  transition: transform 0.2s;
+}
+
+.img-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.zoom-controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.zoom-controls button {
+  margin: 5px;
+  padding: 8px 12px;
+  font-size: 16px;
+}
+
 </style>
 </head>
 
@@ -470,10 +517,21 @@ WELCOME TO<br>
   </div>
 
 </div>
+
 <a class="btn" onclick="openSchedule()">🚀 서버 일정표</a>
+
 <div id="schedulePopup" class="popup">
   <span class="close" onclick="closeSchedule()">✕</span>
-  <img src="schedule.jpg" alt="일정표">
+
+  <div class="zoom-controls">
+    <button onclick="zoomIn()">＋</button>
+    <button onclick="zoomOut()">－</button>
+    <button onclick="resetZoom()">RESET</button>
+  </div>
+
+  <div class="img-container">
+    <img id="scheduleImg" src="schedule.jpg">
+  </div>
 </div>
 
 <a class="btn" onclick="openGame()">🎮 미니 게임</a>
@@ -959,6 +1017,64 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
+let scale = 1;
+let posX = 0;
+let posY = 0;
+let isDragging = false;
+let startX, startY;
+
+const img = document.getElementById("scheduleImg");
+
+function openSchedule(){
+  document.getElementById("schedulePopup").style.display = "block";
+}
+
+function closeSchedule(){
+  document.getElementById("schedulePopup").style.display = "none";
+  resetZoom();
+}
+
+function zoomIn(){
+  scale += 0.2;
+  updateTransform();
+}
+
+function zoomOut(){
+  scale -= 0.2;
+  if(scale < 1) scale = 1;
+  updateTransform();
+}
+
+function resetZoom(){
+  scale = 1;
+  posX = 0;
+  posY = 0;
+  updateTransform();
+}
+
+function updateTransform(){
+  img.style.transform = `scale(${scale}) translate(${posX}px, ${posY}px)`;
+}
+
+// 드래그 이동
+img.addEventListener("mousedown", (e)=>{
+  isDragging = true;
+  startX = e.clientX - posX;
+  startY = e.clientY - posY;
+  img.style.cursor = "grabbing";
+});
+
+document.addEventListener("mousemove", (e)=>{
+  if(!isDragging) return;
+  posX = e.clientX - startX;
+  posY = e.clientY - startY;
+  updateTransform();
+});
+
+document.addEventListener("mouseup", ()=>{
+  isDragging = false;
+  img.style.cursor = "grab";
+});
 </script>
 
 </body>
